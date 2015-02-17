@@ -1,0 +1,6 @@
+<nanofl version="1.0.0">
+	<param name="width" value="550" />
+	<param name="height" value="400" />
+	<param name="backgroundColor" value="#FFFFFF" />
+	<param name="framerate" value="24" />
+</nanofl>

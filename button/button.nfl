@@ -1,0 +1,8 @@
+<nanofl version="1.0.0">
+	<param name="width" value="640" />
+	<param name="height" value="480" />
+	<param name="backgroundColor" value="#E3E3E3" />
+	<param name="framerate" value="24" />
+	<param name="language" value="JavaScript" />
+	<param name="ide" value="FlashDevelop" />
+</nanofl>

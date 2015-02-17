@@ -1,0 +1,23 @@
+<movieclip likeButton="true">
+	<layer name="Layer 1">
+		<frame duration="3">
+			<instance libraryItem="_buttons/Start" x="1" y="1.45" regX="0.5" regY="0.25">
+				<filters>
+					<GlowFilter alpha="100" blurX="2" blurY="2" color="#000000" inner="false" knockout="false" quality="2" strength="200" />
+				</filters>
+			</instance>
+		</frame>
+		<frame>
+			<shape>
+				<fills>
+					<fill type="solid" color="#000000" />
+				</fills>
+				<figure>
+					<polygon fillIndex="0">
+						<contour edges="M31.85,-14.05L31.85,12.15L-30.15,12.15L-30.15,-14.05L31.85,-14.05" />
+					</polygon>
+				</figure>
+			</shape>
+		</frame>
+	</layer>
+</movieclip>
