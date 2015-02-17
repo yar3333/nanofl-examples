@@ -3,7 +3,7 @@
 		<frame duration="3">
 			<instance libraryItem="_buttons/Back" x="0.4" y="-0.25" regX="28.4" regY="9.95">
 				<filters>
-					<GlowFilter blurX="2" blurY="2" color="#000000" quality="2" strength="200" />
+					<GlowFilter alpha="100" blurX="2" blurY="2" color="#000000" inner="false" knockout="false" quality="2" strength="200" />
 				</filters>
 			</instance>
 		</frame>
