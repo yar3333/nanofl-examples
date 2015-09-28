@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 1">
 		<frame>
 			<instance libraryItem="mc" matrix="0.467193603515625,0,0,0.518234252929688">
@@ -8,7 +8,7 @@
 			</instance>
 			<instance libraryItem="mc" name="ikNode_3" x="130" y="0" matrix="0.467193603515625,0,0,0.518234252929688">
 				<filters>
-					<BlurFilter blurX="15" blurY="15" quality="3" />
+					<BoxBlurFilter blurX="30" blurY="30" quality="3" />
 				</filters>
 			</instance>
 			<instance libraryItem="mc" name="ikNode_1" x="260" y="0" matrix="0.467193603515625,0,0,0.518234252929688">

@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 1">
 		<frame>
 			<group>
@@ -11,7 +11,7 @@
 					</strokes>
 					<figure>
 						<polygon fillIndex="0">
-							<contour edges="M73,0L73,57L0,57L0,0L73,0" />
+							<contour edges="M73,0L0,0L0,57L73,57L73,0" />
 						</polygon>
 						<edge strokeIndex="0" edges="M73,0L73,57L0,57L0,0L73,0" />
 					</figure>

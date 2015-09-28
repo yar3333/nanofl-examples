@@ -1,4 +1,4 @@
-<movieclip autoPlay="false" loop="false" linkedClass="Scene">
+<movieclip version="2.0.0" autoPlay="false" loop="false" linkedClass="Scene">
 	<layer name="Label">
 		<frame label="Origin" />
 		<frame label="Rules" />
@@ -92,7 +92,7 @@
 			<instance libraryItem="wall" regX="260" regY="195">
 				<color type="tint" color="#333333" multiplier="0.2" />
 				<filters>
-					<BlurFilter quality="3" />
+					<BoxBlurFilter quality="3" />
 				</filters>
 			</instance>
 		</frame>
@@ -100,7 +100,7 @@
 			<instance libraryItem="wall" regX="260" regY="195">
 				<color type="tint" color="#333333" multiplier="0.2" />
 				<filters>
-					<BlurFilter quality="3" />
+					<BoxBlurFilter quality="3" />
 				</filters>
 			</instance>
 		</frame>

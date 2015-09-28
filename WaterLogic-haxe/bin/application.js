@@ -1,3 +1,4 @@
+var console = Function("return typeof console != 'undefined' ? console : {log:function(){}}")();
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
 	for (var name in fields) proto[name] = fields[name];
@@ -44,7 +45,7 @@ Bucket.prototype = $extend(BaseBucket.prototype,{
 	}
 	,setFill: function(v) {
 		this.fill = v;
-		(js.Boot.__cast(this.mc.getChildByName("tfLabel") , nanofl.TextField)).set_text(this.fill + "/" + this.total);
+		(js_Boot.__cast(this.mc.getChildByName("tfLabel") , nanofl.TextField)).text = this.fill + "/" + this.total;
 		this.mc.gotoAndStop(Math.round(this.fill / this.total * 100));
 	}
 	,fallToBucket: function(dest) {
@@ -113,14 +114,13 @@ Bucket.prototype = $extend(BaseBucket.prototype,{
 	}
 	,__class__: Bucket
 });
-var base = base || {};
-base.Game = function() {
+var base_Game = function() {
 	nanofl.MovieClip.call(this,nanofl.Player.library.getItem("game"));
 };
-base.Game.__name__ = true;
-base.Game.__super__ = nanofl.MovieClip;
-base.Game.prototype = $extend(nanofl.MovieClip.prototype,{
-	__class__: base.Game
+base_Game.__name__ = true;
+base_Game.__super__ = nanofl.MovieClip;
+base_Game.prototype = $extend(nanofl.MovieClip.prototype,{
+	__class__: base_Game
 });
 var Game = function() {
 	this.fillBeforeTrash = 0;
@@ -130,84 +130,84 @@ var Game = function() {
 	this.fallTo = null;
 	this.action = 0;
 	this.carry = null;
-	this.buckets = new Array();
+	this.buckets = [];
 	this.midY = 195.;
 	this.midX = 260.;
 	this.g = 1;
 	this.level = 0;
-	base.Game.call(this);
+	base_Game.call(this);
 };
 Game.__name__ = true;
-Game.__super__ = base.Game;
-Game.prototype = $extend(base.Game.prototype,{
+Game.__super__ = base_Game;
+Game.prototype = $extend(base_Game.prototype,{
 	init: function() {
-		(js.Boot.__cast(this.parent , nanofl.MovieClip)).stop();
+		(js_Boot.__cast(this.parent , nanofl.MovieClip)).stop();
 		this.mcTap = this.parent.getChildByName("mcTap");
 		this.mcTrash = this.parent.getChildByName("mcTrash");
 		this.level = Globals.level;
-		(js.Boot.__cast(this.parent.getChildByName("tfLevel") , nanofl.TextField)).set_text(Std.string(this.level));
+		(js_Boot.__cast(this.parent.getChildByName("tfLevel") , nanofl.TextField)).text = Std.string(this.level);
 		var tfTask;
-		tfTask = js.Boot.__cast(this.parent.getChildByName("tfTask") , nanofl.TextField);
+		tfTask = js_Boot.__cast(this.parent.getChildByName("tfTask") , nanofl.TextField);
 		var _g = this.level;
 		switch(_g) {
 		case 1:
-			tfTask.set_text("You need to measure 4 litres of water,\nusing two buckets of 5 and 7 litres.\nUse barrel (at the right) for filling buckets.\nTo make buckets empty, use trash (at the left).");
+			tfTask.text = "You need to measure 4 litres of water,\nusing two buckets of 5 and 7 litres.\nUse barrel (at the right) for filling buckets.\nTo make buckets empty, use trash (at the left).";
 			this.buckets.push(new Bucket(this,5,220));
 			this.buckets.push(new Bucket(this,7,320));
 			break;
 		case 2:
-			tfTask.set_text("You need to measure 1 liter of water.");
+			tfTask.text = "You need to measure 1 liter of water.";
 			this.buckets.push(new Bucket(this,3,180));
 			this.buckets.push(new Bucket(this,6,280));
 			this.buckets.push(new Bucket(this,8,380));
 			break;
 		case 3:
-			tfTask.set_text("You need to measure 1 liter of water.");
+			tfTask.text = "You need to measure 1 liter of water.";
 			this.buckets.push(new Bucket(this,3,220));
 			this.buckets.push(new Bucket(this,5,320));
 			break;
 		case 4:
-			tfTask.set_text("You need to got 1 liter of water in any two buckets.");
+			tfTask.text = "You need to got 1 liter of water in any two buckets.";
 			this.buckets.push(new Bucket(this,3,180));
 			this.buckets.push(new Bucket(this,4,280));
 			this.buckets.push(new Bucket(this,6,380));
 			break;
 		case 5:
-			tfTask.set_text("You need to got 6 litres of water in bigger bucket,\n4 liters in 5-bucket and 4 litres in 8-bucket.");
+			tfTask.text = "You need to got 6 litres of water in bigger bucket,\n4 liters in 5-bucket and 4 litres in 8-bucket.";
 			this.buckets.push(new Bucket(this,3,180));
 			this.buckets.push(new Bucket(this,5,250));
 			this.buckets.push(new Bucket(this,8,320));
 			this.buckets.push(new Bucket(this,12,400));
 			break;
 		case 6:
-			tfTask.set_text("You need to got 2 liter of water in any three buckets.");
+			tfTask.text = "You need to got 2 liter of water in any three buckets.";
 			this.buckets.push(new Bucket(this,3,180));
 			this.buckets.push(new Bucket(this,3,250));
 			this.buckets.push(new Bucket(this,8,320));
 			this.buckets.push(new Bucket(this,11,400));
 			break;
 		case 7:
-			tfTask.set_text("You need to got 1 liter of water in any two buckets..");
+			tfTask.text = "You need to got 1 liter of water in any two buckets..";
 			this.buckets.push(new Bucket(this,2,180));
 			this.buckets.push(new Bucket(this,3,280));
 			this.buckets.push(new Bucket(this,9,380));
 			break;
 		case 8:
-			tfTask.set_text("You need to got 1 liter of water in small three buckets.");
+			tfTask.text = "You need to got 1 liter of water in small three buckets.";
 			this.buckets.push(new Bucket(this,5,180));
 			this.buckets.push(new Bucket(this,7,250));
 			this.buckets.push(new Bucket(this,9,320));
 			this.buckets.push(new Bucket(this,11,400));
 			break;
 		case 9:
-			tfTask.set_text("You need to fill buckets on increase:\nsmallest bust be empty, next must contain 1 liter,\nnext - 2 litres and bigger - 3 litres.");
+			tfTask.text = "You need to fill buckets on increase:\nsmallest bust be empty, next must contain 1 liter,\nnext - 2 litres and bigger - 3 litres.";
 			this.buckets.push(new Bucket(this,7,180));
 			this.buckets.push(new Bucket(this,11,250));
 			this.buckets.push(new Bucket(this,13,320));
 			this.buckets.push(new Bucket(this,17,400));
 			break;
 		case 10:
-			tfTask.set_text("You must to got 18 litres in 19-bucket and 5 litres in 6-bucket.");
+			tfTask.text = "You must to got 18 litres in 19-bucket and 5 litres in 6-bucket.";
 			this.buckets.push(new Bucket(this,2,180));
 			this.buckets.push(new Bucket(this,6,280));
 			this.buckets.push(new Bucket(this,19,380));
@@ -218,7 +218,7 @@ Game.prototype = $extend(base.Game.prototype,{
 		var _g = this.gameMode;
 		switch(_g) {
 		case 0:
-			if(this.checkWin()) (js.Boot.__cast(this.parent , nanofl.MovieClip)).gotoAndStop("Win");
+			if(this.checkWin()) (js_Boot.__cast(this.parent , nanofl.MovieClip)).gotoAndStop("Win");
 			break;
 		case 1:
 			this.fallTo.activate(false);
@@ -404,38 +404,38 @@ Game.prototype = $extend(base.Game.prototype,{
 var Globals = function() { };
 Globals.__name__ = true;
 Math.__name__ = true;
-base.McBucket = function() {
+var base_McBucket = function() {
 	nanofl.MovieClip.call(this,nanofl.Player.library.getItem("bucket"));
 };
-base.McBucket.__name__ = true;
-base.McBucket.__super__ = nanofl.MovieClip;
-base.McBucket.prototype = $extend(nanofl.MovieClip.prototype,{
-	__class__: base.McBucket
+base_McBucket.__name__ = true;
+base_McBucket.__super__ = nanofl.MovieClip;
+base_McBucket.prototype = $extend(nanofl.MovieClip.prototype,{
+	__class__: base_McBucket
 });
 var McBucket = function() {
-	base.McBucket.call(this);
+	base_McBucket.call(this);
 };
 McBucket.__name__ = true;
-McBucket.__super__ = base.McBucket;
-McBucket.prototype = $extend(base.McBucket.prototype,{
+McBucket.__super__ = base_McBucket;
+McBucket.prototype = $extend(base_McBucket.prototype,{
 	__class__: McBucket
 });
-base.MusicButton = function() {
+var base_MusicButton = function() {
 	nanofl.MovieClip.call(this,nanofl.Player.library.getItem("musicButton"));
 };
-base.MusicButton.__name__ = true;
-base.MusicButton.__super__ = nanofl.MovieClip;
-base.MusicButton.prototype = $extend(nanofl.MovieClip.prototype,{
-	__class__: base.MusicButton
+base_MusicButton.__name__ = true;
+base_MusicButton.__super__ = nanofl.MovieClip;
+base_MusicButton.prototype = $extend(nanofl.MovieClip.prototype,{
+	__class__: base_MusicButton
 });
 var MusicButton = function() {
-	base.MusicButton.call(this);
+	base_MusicButton.call(this);
 	this.cursor = "pointer";
 	this.musicOn();
 };
 MusicButton.__name__ = true;
-MusicButton.__super__ = base.MusicButton;
-MusicButton.prototype = $extend(base.MusicButton.prototype,{
+MusicButton.__super__ = base_MusicButton;
+MusicButton.prototype = $extend(base_MusicButton.prototype,{
 	onMouseUp: function(e) {
 		if(this.getBounds().contains(e.localX,e.localY)) {
 			if(this.currentFrame == 1) this.musicOn(); else this.musicOff();
@@ -455,21 +455,21 @@ MusicButton.prototype = $extend(base.MusicButton.prototype,{
 	}
 	,__class__: MusicButton
 });
-base.Scene = function() {
+var base_Scene = function() {
 	nanofl.MovieClip.call(this,nanofl.Player.library.getItem("scene"));
 };
-base.Scene.__name__ = true;
-base.Scene.__super__ = nanofl.MovieClip;
-base.Scene.prototype = $extend(nanofl.MovieClip.prototype,{
-	__class__: base.Scene
+base_Scene.__name__ = true;
+base_Scene.__super__ = nanofl.MovieClip;
+base_Scene.prototype = $extend(nanofl.MovieClip.prototype,{
+	__class__: base_Scene
 });
 var Scene = function() {
 	this.lastInitFrame = null;
-	base.Scene.call(this);
+	base_Scene.call(this);
 };
 Scene.__name__ = true;
-Scene.__super__ = base.Scene;
-Scene.prototype = $extend(base.Scene.prototype,{
+Scene.__super__ = base_Scene;
+Scene.prototype = $extend(base_Scene.prototype,{
 	onEnterFrame: function() {
 		var _g = this;
 		if(this.currentFrame != this.lastInitFrame) {
@@ -516,15 +516,31 @@ Sounds.water = function(options) {
 var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
-	return js.Boot.__string_rec(s,"");
+	return js_Boot.__string_rec(s,"");
 };
-var js = js || {};
-js.Boot = function() { };
-js.Boot.__name__ = true;
-js.Boot.getClass = function(o) {
-	if((o instanceof Array) && o.__enum__ == null) return Array; else return o.__class__;
+var js__$Boot_HaxeError = function(val) {
+	Error.call(this);
+	this.val = val;
+	this.message = String(val);
+	if(Error.captureStackTrace) Error.captureStackTrace(this,js__$Boot_HaxeError);
 };
-js.Boot.__string_rec = function(o,s) {
+js__$Boot_HaxeError.__name__ = true;
+js__$Boot_HaxeError.__super__ = Error;
+js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
+	__class__: js__$Boot_HaxeError
+});
+var js_Boot = function() { };
+js_Boot.__name__ = true;
+js_Boot.getClass = function(o) {
+	if((o instanceof Array) && o.__enum__ == null) return Array; else {
+		var cl = o.__class__;
+		if(cl != null) return cl;
+		var name = js_Boot.__nativeClassName(o);
+		if(name != null) return js_Boot.__resolveNativeClass(name);
+		return null;
+	}
+};
+js_Boot.__string_rec = function(o,s) {
 	if(o == null) return "null";
 	if(s.length >= 5) return "<...>";
 	var t = typeof(o);
@@ -534,24 +550,24 @@ js.Boot.__string_rec = function(o,s) {
 		if(o instanceof Array) {
 			if(o.__enum__) {
 				if(o.length == 2) return o[0];
-				var str = o[0] + "(";
+				var str2 = o[0] + "(";
 				s += "\t";
 				var _g1 = 2;
 				var _g = o.length;
 				while(_g1 < _g) {
-					var i = _g1++;
-					if(i != 2) str += "," + js.Boot.__string_rec(o[i],s); else str += js.Boot.__string_rec(o[i],s);
+					var i1 = _g1++;
+					if(i1 != 2) str2 += "," + js_Boot.__string_rec(o[i1],s); else str2 += js_Boot.__string_rec(o[i1],s);
 				}
-				return str + ")";
+				return str2 + ")";
 			}
 			var l = o.length;
-			var i1;
+			var i;
 			var str1 = "[";
 			s += "\t";
 			var _g2 = 0;
 			while(_g2 < l) {
 				var i2 = _g2++;
-				str1 += (i2 > 0?",":"") + js.Boot.__string_rec(o[i2],s);
+				str1 += (i2 > 0?",":"") + js_Boot.__string_rec(o[i2],s);
 			}
 			str1 += "]";
 			return str1;
@@ -560,14 +576,15 @@ js.Boot.__string_rec = function(o,s) {
 		try {
 			tostr = o.toString;
 		} catch( e ) {
+			if (e instanceof js__$Boot_HaxeError) e = e.val;
 			return "???";
 		}
-		if(tostr != null && tostr != Object.toString) {
+		if(tostr != null && tostr != Object.toString && typeof(tostr) == "function") {
 			var s2 = o.toString();
 			if(s2 != "[object Object]") return s2;
 		}
 		var k = null;
-		var str2 = "{\n";
+		var str = "{\n";
 		s += "\t";
 		var hasp = o.hasOwnProperty != null;
 		for( var k in o ) {
@@ -577,12 +594,12 @@ js.Boot.__string_rec = function(o,s) {
 		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
 			continue;
 		}
-		if(str2.length != 2) str2 += ", \n";
-		str2 += s + k + " : " + js.Boot.__string_rec(o[k],s);
+		if(str.length != 2) str += ", \n";
+		str += s + k + " : " + js_Boot.__string_rec(o[k],s);
 		}
 		s = s.substring(1);
-		str2 += "\n" + s + "}";
-		return str2;
+		str += "\n" + s + "}";
+		return str;
 	case "function":
 		return "<function>";
 	case "string":
@@ -591,7 +608,7 @@ js.Boot.__string_rec = function(o,s) {
 		return String(o);
 	}
 };
-js.Boot.__interfLoop = function(cc,cl) {
+js_Boot.__interfLoop = function(cc,cl) {
 	if(cc == null) return false;
 	if(cc == cl) return true;
 	var intf = cc.__interfaces__;
@@ -601,12 +618,12 @@ js.Boot.__interfLoop = function(cc,cl) {
 		while(_g1 < _g) {
 			var i = _g1++;
 			var i1 = intf[i];
-			if(i1 == cl || js.Boot.__interfLoop(i1,cl)) return true;
+			if(i1 == cl || js_Boot.__interfLoop(i1,cl)) return true;
 		}
 	}
-	return js.Boot.__interfLoop(cc.__super__,cl);
+	return js_Boot.__interfLoop(cc.__super__,cl);
 };
-js.Boot.__instanceof = function(o,cl) {
+js_Boot.__instanceof = function(o,cl) {
 	if(cl == null) return false;
 	switch(cl) {
 	case Int:
@@ -625,7 +642,9 @@ js.Boot.__instanceof = function(o,cl) {
 		if(o != null) {
 			if(typeof(cl) == "function") {
 				if(o instanceof cl) return true;
-				if(js.Boot.__interfLoop(js.Boot.getClass(o),cl)) return true;
+				if(js_Boot.__interfLoop(js_Boot.getClass(o),cl)) return true;
+			} else if(typeof(cl) == "object" && js_Boot.__isNativeObj(cl)) {
+				if(o instanceof cl) return true;
 			}
 		} else return false;
 		if(cl == Class && o.__name__ != null) return true;
@@ -633,19 +652,21 @@ js.Boot.__instanceof = function(o,cl) {
 		return o.__enum__ == cl;
 	}
 };
-js.Boot.__cast = function(o,t) {
-	if(js.Boot.__instanceof(o,t)) return o; else throw "Cannot cast " + Std.string(o) + " to " + Std.string(t);
+js_Boot.__cast = function(o,t) {
+	if(js_Boot.__instanceof(o,t)) return o; else throw new js__$Boot_HaxeError("Cannot cast " + Std.string(o) + " to " + Std.string(t));
+};
+js_Boot.__nativeClassName = function(o) {
+	var name = js_Boot.__toStr.call(o).slice(8,-1);
+	if(name == "Object" || name == "Function" || name == "Math" || name == "JSON") return null;
+	return name;
+};
+js_Boot.__isNativeObj = function(o) {
+	return js_Boot.__nativeClassName(o) != null;
+};
+js_Boot.__resolveNativeClass = function(name) {
+	return (Function("return typeof " + name + " != \"undefined\" ? " + name + " : null"))();
 };
 createjs.DisplayObject.prototype.setBounds = function(x, y, width, height) { this._bounds = x != null ? (this._bounds || new createjs.Rectangle()).setValues(x, y, width, height) : null; };;
-Math.NaN = Number.NaN;
-Math.NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY;
-Math.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
-Math.isFinite = function(i) {
-	return isFinite(i);
-};
-Math.isNaN = function(i1) {
-	return isNaN(i1);
-};
 String.prototype.__class__ = String;
 String.__name__ = true;
 Array.__name__ = true;
@@ -669,3 +690,4 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	return a1;
 };
 Globals.level = 1;
+js_Boot.__toStr = {}.toString;

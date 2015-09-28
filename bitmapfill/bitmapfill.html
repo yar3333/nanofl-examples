@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <!--ALLOW_REGENERATION-->
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>bitmapfill</title>
-    </head>
-    <body style="margin:0; padding:0; font-size:0">
-		<canvas id="mainCanvas" width="520" height="390" style="background-color:#999999"></canvas>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>bitmapfill</title>
+	</head>
+	<body style="background-color:#999999; margin:0; padding:0; font-size:0; overflow:hidden">
+		<canvas id="mainCanvas" width="520" height="390" style="position:relative"></canvas>
 		<script src="http://code.createjs.com/createjs-2014.12.12.combined.js"></script>
-		<script src="http://player.nanofl.com/nanofl-1.0.0.js"></script>
+		<script src="http://player.nanofl.com/nanofl-2.0.0.js"></script>
 		<script>
-			nanofl.Player.packedLibrary = "cy21:models.common.Libraryy10:libraryDiry7:libraryy5:itemsby11:Bitmap%2010cy37:models.common.libraryitems.BitmapItemy11:linkedClassy0:y8:namePathR4y3:exty3:pngR2r0y5:imageoggy5:sceneCy40:models.common.libraryitems.MovieClipItemy4:loopty8:autoPlayty10:likeButtonfR6R7R8R12y7:_layersaCy19:models.common.Layery4:namey5:Labely4:typey6:normaly7:visiblety6:lockedfy11:parentIndexny10:_keyFramesaCy22:models.common.KeyFramey5:labelR7y8:durationi1y12:_motionTweenny9:_elementsacy35:models.common.elements.ShapeElementR23ty4:regYzy4:regXzy6:matrixcy25:models.common.geom.Matrixy1:ai1y1:bzy1:czy1:di1y2:txzy2:tyzgy5:edgesahy8:polygonsahy8:keyFramer8gCy35:models.common.elements.GroupElementR23tR33zR34zR35cR36R37i1R38zR39zR40i1R41d61.95R42i6gy8:elementsacR32R23tR33zR34zR35cR36R37i1R38zR39zR40i1R41zR42zgR43ahR44acy26:models.common.geom.Polygony4:fillcy30:models.common.fills.BitmapFillR35cR36R37i1R38zR39zR40i1R41i125R42d52.45gy10:bitmapPathR4y6:repeaty9:no-repeatR2r0gy8:contoursacy26:models.common.geom.ContourR43acy23:models.common.geom.Edgey2:x1i396y2:y1d336.45y2:x2d260.5y2:y2d336.45y2:x3i125y2:y3d336.45gcR56R57i125R58d336.45R59i125R60d194.95R61i125R62d53.45gcR56R57i125R58d53.45R59d260.5R60d53.45R61i396R62d53.45gcR56R57i396R58d53.45R59i396R60d194.95R61i396R62d336.45ghghy8:selectedfghghR45r8ggCy31:models.common.elements.InstanceR23tR33zR34zR35cR36R37i1R38zR39zR40i1R41d74.5R42d197.5gR8y10:Symbol%201R19R7y11:colorEffectny7:filtersahR45r8R2r0gghy5:layerr6gghy15:layersContainerr4gghR2r0ggR65CR13R14tR15tR16fR6R7R8R65R17aCR18R19y9:Layer%201R21R22R23tR24fR25nR26aCR27R28R7R29i1R30nR31acR32R23tR33zR34zR35cR36R37i1R38zR39zR40i1R41zR42zgR43acy29:models.common.geom.StrokeEdgeR57d-51.5R58d-39.5R59zR60zR61d51.5R62d39.5y6:strokecy33:models.common.strokes.SolidStrokey9:thicknessd7.2y4:capsy5:roundy6:jointsR76y10:miterLimiti3y11:ignoreScalefy5:colory9:%23FF0000gR63fghR44ahR45r38ghR68r36gghR69r34gghR2r0gghg";
+			var serializedLibrary = 'cy21:nanofl.engine.Libraryy5:itemsby11:Bitmap%2010Cy37:nanofl.engine.libraryitems.BitmapItemay11:linkedClassy0:y8:namePathR2y3:exty3:pngy7:libraryr0hgy5:sceneCy40:nanofl.engine.libraryitems.MovieClipItemay19:exportAsSpriteSheetfy4:loopty8:autoPlayty10:likeButtonfy7:_layersaCy19:nanofl.engine.Layery4:namey5:Labely4:typey6:normaly7:visiblety6:lockedfy11:parentIndexny10:_keyFramesaCy22:nanofl.engine.KeyFramey5:labelR5y8:durationi1y12:_motionTweenny9:_elementsacy35:nanofl.engine.elements.ShapeElementR22ty4:regYzy4:regXzy6:matrixcy25:nanofl.engine.geom.Matrixy1:ai1y1:bzy1:czy1:di1y2:txzy2:tyzgy5:edgesahy8:polygonsahy6:parentr9gCy35:nanofl.engine.elements.GroupElementR18R5R22tR32zR33zR34cR35R36i1R37zR38zR39i1R40d61.95R41i6gR30acR31R22tR32zR33zR34cR35R36i1R37zR38zR39i1R40zR41zgR42ahR43acy26:nanofl.engine.geom.Polygony4:fillcy30:nanofl.engine.fills.BitmapFilly10:bitmapPathR2y6:repeaty9:no-repeatR34cR35R36i1R37zR38zR39i1R40i125R41d52.45gR9r0gy8:contoursacy26:nanofl.engine.geom.ContourR42acy23:nanofl.engine.geom.Edgey2:x1i396y2:y1d336.45y2:x2i396y2:y2d194.95y2:x3i396y2:y3d53.45y12:cachedBoundsoy4:minXi396y4:maxXi396y4:minYd53.45y4:maxYd336.45gy16:cachedBoundsEdgecR54R55i396R56d336.45R57i396R58d194.95R59i396R60d53.45ggcR54R55i396R56d53.45R57d260.5R58d53.45R59i125R60d53.45R61oR62i125R63i396R64d53.45R65d53.45gR66cR54R55i396R56d53.45R57d260.5R58d53.45R59i125R60d53.45ggcR54R55i125R56d53.45R57i125R58d194.95R59i125R60d336.45R61oR62i125R63i125R64d53.45R65d336.45gR66cR54R55i125R56d53.45R57i125R58d194.95R59i125R60d336.45ggcR54R55i125R56d336.45R57d260.5R58d336.45R59i396R60d336.45R61oR62i125R63i396R64d336.45R65d336.45gR66cR54R55i125R56d336.45R57d260.5R58d336.45R59i396R60d336.45gghghy8:selectedfghR44r15ghR44r9ggCy31:nanofl.engine.elements.InstanceR22tR32zR33zR34cR35R36i1R37zR38zR39i1R40d74.5R41d197.5gR6y10:Symbol%201R18R5y11:colorEffectny7:filtersahR44r9R9r0gghy5:layerr7gghy15:layersContainerr4gghR4R5R6R10R9r0hgR69CR11aR12fR13tR14tR15fR16aCR17R18y9:Layer%201R20R21R22tR23fR24nR25aCR26R27R5R28i1R29nR30acR31R22tR32zR33zR34cR35R36i1R37zR38zR39i1R40zR41zgR42acy29:nanofl.engine.geom.StrokeEdgeR55d-51.5R56d-39.5R57zR58zR59d51.5R60d39.5y6:strokecy33:nanofl.engine.strokes.SolidStrokey9:thicknessd7.2y4:capsy5:roundy6:jointsR80y10:miterLimiti3y11:ignoreScalefy5:colory9:%23FF0000gR67fR61oR62d-51.5R63d51.5R64d-39.5R65d39.5gR66cR75R55d-51.5R56d-39.5R57zR58zR59d51.5R60d39.5R76cR77R78d7.2R79R80R81R80R82i3R83fR84R85gR67fgghR43ahR44r48ghR72r46gghR73r43gghR4R5R6R69R9r0hghy10:libraryDirR9g';
+			
+			nanofl.Player.init(document.getElementById("mainCanvas"), nanofl.DataTools.unserialize(serializedLibrary), 24, 'noScale');
 		</script>
-		<script>
-			nanofl.Player.init(document.getElementById("mainCanvas"), 24);
-		</script>
-    </body>
+	</body>
 </html>

@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 5">
 		<frame>
 			<instance libraryItem="_splash/titleInner" x="-8" y="0" regX="78.25" regY="19.45">

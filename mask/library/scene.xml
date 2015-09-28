@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 2" type="mask">
 		<frame>
 			<shape>
@@ -7,7 +7,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M301.95,155L139.95,155L139.95,37L301.95,37L301.95,155" />
+						<contour edges="M301.95,155L301.95,37L139.95,37L139.95,155L301.95,155" />
 					</polygon>
 				</figure>
 			</shape>
@@ -19,7 +19,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M301.95,155L139.95,155L139.95,37L301.95,37L301.95,155" />
+						<contour edges="M301.95,155L301.95,37L139.95,37L139.95,155L301.95,155" />
 					</polygon>
 				</figure>
 			</shape>
@@ -36,7 +36,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M415.45,233.45L253.45,233.45L253.45,115.45L415.45,115.45L415.45,233.45" />
+						<contour edges="M415.45,233.45L415.45,115.45L253.45,115.45L253.45,233.45L415.45,233.45" />
 					</polygon>
 				</figure>
 			</shape>

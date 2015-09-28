@@ -1978,11 +1978,11 @@ declare module createjs
 	 */
 	export class DOMElement extends createjs.DisplayObject
 	{
-		constructor(htmlElement:Element);
+		constructor(htmlElement:HTMLElement);
 		/**
 		 * The DOM object to manage.
 		 */
-		htmlElement : Element;
+		htmlElement : HTMLElement;
 		/**
 		 * Returns true or false indicating whether the display object would be visible if drawn to a canvas.
 		 * This does not account for whether it would be visible within the boundaries of the stage.
@@ -5272,7 +5272,7 @@ declare module createjs
 		 * sheet if the animation param is omitted. Returns 0 if the spritesheet relies on calculated frame counts, and
 		 * the images have not been fully loaded.
 		 */
-		getNumFrames(animation:string) : number;
+		getNumFrames(animation?:string) : number;
 		/**
 		 * Returns an object defining the specified animation. The returned object contains:<UL>
 		 * 	<LI>frames: an array of the frame ids in the animation</LI>

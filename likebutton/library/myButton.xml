@@ -1,4 +1,4 @@
-<movieclip likeButton="true" linkedClass="myButton">
+<movieclip version="2.0.0" likeButton="true" linkedClass="myButton">
 	<layer name="Layer 1">
 		<frame>
 			<text x="-23.5" y="-20.8" width="47" height="41.65">
@@ -25,7 +25,7 @@
 				</strokes>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M27.5,-48.3L27.5,53.7L-28.5,53.7L-28.5,-48.3L27.5,-48.3" />
+						<contour edges="M27.5,-48.3L-28.5,-48.3L-28.5,53.7L27.5,53.7L27.5,-48.3" />
 					</polygon>
 					<edge strokeIndex="0" edges="M27.5,-48.3L27.5,53.7L-28.5,53.7L-28.5,-48.3L27.5,-48.3" />
 				</figure>

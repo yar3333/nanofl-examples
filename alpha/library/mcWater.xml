@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 1">
 		<frame>
 			<shape>
@@ -7,7 +7,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M43.03,44.8L-7.97,44.8L-7.97,-0.02L43.03,-0.02L43.03,44.8" />
+						<contour edges="M43.03,44.8L43.03,-0.02L-7.97,-0.02L-7.97,44.8L43.03,44.8" />
 					</polygon>
 				</figure>
 			</shape>

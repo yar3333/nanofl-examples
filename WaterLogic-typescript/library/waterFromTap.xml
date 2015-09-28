@@ -1,13 +1,13 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 1">
 		<frame duration="4">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-179.05" y="30" matrix="3.25,0,0,12.75" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-179.05" cy="30" r="8" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-183.6,41.9L-182.1,18.15L-176.85,18.15L-175.65,42L-183.6,41.9" />
+						<contour edges="M-183.6,41.9L-175.65,42L-176.85,18.15L-182.1,18.15L-183.6,41.9" />
 					</polygon>
 				</figure>
 			</shape>
@@ -15,11 +15,11 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-178.15" y="29.75" matrix="3.75,0,0,12.75" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-178.15" cy="29.75" r="8.25" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-183.6,41.9C-180.7,30.03,-182.1,18.15L-176.85,18.15C-173.63,30.03,-174.5,41.9L-183.6,41.9" />
+						<contour edges="M-183.6,41.9L-174.5,41.9C-173.63,30.03,-176.85,18.15L-182.1,18.15C-180.7,30.03,-183.6,41.9" />
 					</polygon>
 				</figure>
 			</shape>
@@ -27,11 +27,11 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-180.55" y="30" matrix="3.675,0.3125,-1.0625,12.7" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.55" cy="30" r="8.216315130744041" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-176.2,42.3L-184.4,41.55C-182.4,29.94,-181.8,18.03L-177.65,18.2C-179.33,30.81,-176.2,42.3" />
+						<contour edges="M-176.2,42.3C-179.33,30.81,-177.65,18.2L-181.8,18.03C-182.4,29.94,-184.4,41.55L-176.2,42.3" />
 					</polygon>
 				</figure>
 			</shape>
@@ -39,11 +39,11 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-180.9" y="29.5" matrix="3.85,0.325,-1.0625,12.7" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.9" cy="29.5" r="8.304030404943166" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-185.27,41.55C-185.84,29.51,-181.8,18.03L-176.57,18.45C-179.73,30.02,-177.05,42.3L-185.27,41.55" />
+						<contour edges="M-185.27,41.55L-177.05,42.3C-179.73,30.02,-176.57,18.45L-181.8,18.03C-185.84,29.51,-185.27,41.55" />
 					</polygon>
 				</figure>
 			</shape>
@@ -51,11 +51,11 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-180.55" y="29.85" matrix="4.225,0.35,-1.0625,12.7" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.55" cy="29.85" r="8.49191994168902" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-185.27,41.55C-182.4,29.94,-181.8,18.03L-177.65,18.2C-179.33,30.81,-177.35,42.3L-185.27,41.55" />
+						<contour edges="M-185.27,41.55L-177.35,42.3C-179.33,30.81,-177.65,18.2L-181.8,18.03C-182.4,29.94,-185.27,41.55" />
 					</polygon>
 				</figure>
 			</shape>
@@ -63,11 +63,11 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-178.4" y="30" matrix="4.4875,-0.3125,0.8875,12.7125" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-178.4" cy="30" r="8.620904850194803" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-183.6,41.9C-180.7,30.03,-182.1,18.15L-176.85,18.15C-173.63,30.03,-175.1,41.9L-183.6,41.9" />
+						<contour edges="M-183.6,41.9L-175.1,41.9C-173.63,30.03,-176.85,18.15L-182.1,18.15C-180.7,30.03,-183.6,41.9" />
 					</polygon>
 				</figure>
 			</shape>
@@ -75,11 +75,11 @@
 		<frame>
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" x="-179.05" y="30" matrix="3.25,0,0,12.75" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-179.05" cy="30" r="8" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M-183.6,41.9L-182.1,18.15L-176.85,18.15L-175.65,42L-183.6,41.9" />
+						<contour edges="M-183.6,41.9L-175.65,42L-176.85,18.15L-182.1,18.15L-183.6,41.9" />
 					</polygon>
 				</figure>
 			</shape>

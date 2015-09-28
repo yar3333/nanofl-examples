@@ -1,4 +1,4 @@
-<movieclip autoPlay="false" loop="false" linkedClass="McBucket">
+<movieclip version="2.0.0" autoPlay="false" loop="false" linkedClass="McBucket">
 	<layer name="neck" locked="true">
 		<frame duration="101">
 			<instance libraryItem="neck" name="mcNeck" x="0" y="-65" />

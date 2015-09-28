@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <!--ALLOW_REGENERATION-->
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>curve</title>
-    </head>
-    <body style="margin:0; padding:0; font-size:0">
-		<canvas id="mainCanvas" width="550" height="400" style="background-color:#FFFFFF"></canvas>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>curve</title>
+	</head>
+	<body style="background-color:#FFFFFF; margin:0; padding:0; font-size:0; overflow:hidden">
+		<canvas id="mainCanvas" width="550" height="400" style="position:relative"></canvas>
 		<script src="http://code.createjs.com/createjs-2014.12.12.combined.js"></script>
-		<script src="http://player.nanofl.com/nanofl-1.0.0.js"></script>
+		<script src="http://player.nanofl.com/nanofl-2.0.0.js"></script>
 		<script>
-			nanofl.Player.packedLibrary = "cy21:models.common.Libraryy10:libraryDiry7:libraryy5:itemsby5:sceneCy40:models.common.libraryitems.MovieClipItemy4:loopty8:autoPlayty10:likeButtonfy11:linkedClassy0:y8:namePathR4y7:_layersaCy19:models.common.Layery4:namey9:Layer%201y4:typey6:normaly7:visiblety6:lockedfy11:parentIndexny10:_keyFramesaCy22:models.common.KeyFramey5:labelR10y8:durationi1y12:_motionTweenny9:_elementsacy35:models.common.elements.ShapeElementR18ty4:regYzy4:regXzy6:matrixcy25:models.common.geom.Matrixy1:ai1y1:bzy1:czy1:di1y2:txzy2:tyzgy5:edgesacy29:models.common.geom.StrokeEdgey2:x1d37.2y2:y1d6.75y2:x2d-22.38y2:y2d43.28y2:x3d17.4y2:y3d24.35y6:strokecy33:models.common.strokes.SolidStrokey9:thicknessi1y4:capsy5:roundy6:jointsR50y10:miterLimiti3y11:ignoreScalefy5:colory9:%237C0101gy8:selectedfghy8:polygonsahy8:keyFramer6ghy5:layerr4gghy15:layersContainerr2gghR2r0gghg";
+			var serializedLibrary = 'cy21:nanofl.engine.Libraryy5:itemsby5:sceneCy40:nanofl.engine.libraryitems.MovieClipItemay19:exportAsSpriteSheetfy4:loopty8:autoPlayty10:likeButtonfy7:_layersaCy19:nanofl.engine.Layery4:namey9:Layer%201y4:typey6:normaly7:visiblety6:lockedfy11:parentIndexny10:_keyFramesaCy22:nanofl.engine.KeyFramey5:labely0:y8:durationi1y12:_motionTweenny9:_elementsacy35:nanofl.engine.elements.ShapeElementR14ty4:regYzy4:regXzy6:matrixcy25:nanofl.engine.geom.Matrixy1:ai1y1:bzy1:czy1:di1y2:txzy2:tyzgy5:edgesacy29:nanofl.engine.geom.StrokeEdgey2:x1d37.2y2:y1d6.75y2:x2d-22.38y2:y2d43.28y2:x3d17.4y2:y3d24.35y6:strokecy33:nanofl.engine.strokes.SolidStrokey9:thicknessi1y4:capsy5:roundy6:jointsR47y10:miterLimiti3y11:ignoreScalefy5:colory9:%237C0101gy8:selectedfy12:cachedBoundsoy4:minXd1.473586956521741y4:maxXd37.2y4:minYd6.75y4:maxYd30.81132167327804gy16:cachedBoundsEdgecR36R37d37.2R38d6.75R39d-22.38R40d43.28R41d17.4R42d24.35R43cR44R45i1R46R47R48R47R49i3R50fR51R52gR53fgghy8:polygonsahy6:parentr7ghy5:layerr5gghy15:layersContainerr2gghy11:linkedClassR20y8:namePathR2y7:libraryr0hghy10:libraryDirR66g';
+			
+			nanofl.Player.init(document.getElementById("mainCanvas"), nanofl.DataTools.unserialize(serializedLibrary), 24, 'noScale');
 		</script>
-		<script>
-			nanofl.Player.init(document.getElementById("mainCanvas"), 24);
-		</script>
-    </body>
+	</body>
 </html>

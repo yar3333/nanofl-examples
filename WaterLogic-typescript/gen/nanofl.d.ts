@@ -12,7 +12,9 @@ declare module nanofl
 	
 	export class DisplayObjectTools
 	{
-		static smartUncache(obj:createjs.DisplayObject) : void;
+		static cache(obj:createjs.DisplayObject) : void;
+		static uncache(obj:createjs.DisplayObject) : void;
+		static getBounds(obj:createjs.DisplayObject, ignoreSelf?:boolean) : createjs.Rectangle;
 	}
 	
 	export class MovieClip extends createjs.Container
@@ -55,13 +57,11 @@ declare module nanofl
 		height : number;
 		minHeight : number;
 		minWidth : number;
-		selectable : boolean;
 		text : string;
 		textRuns : TextRun[];
 		width : number;
 		
 		constructor();
-		update() : void;
 	}
 	
 	export class TextRun
@@ -70,12 +70,15 @@ declare module nanofl
 		characters : string;
 		family : string;
 		fillColor : string;
-		size : number;
+		kerning : boolean;
+		letterSpacing : number;
+		lineSpacing : number;
+ 		size : number;
 		strokeColor : string;
 		strokeSize : number;
 		style : string;
 		
-		constructor(characters:string, fillColor:string, family:string, style:string, size:number, align:string, strokeSize:number, strokeColor:string);
+		constructor(characters?:string, fillColor?:string, size?:number);
 		clone() : TextRun;
 	}
 }

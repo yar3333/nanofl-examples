@@ -1,4 +1,4 @@
-<movieclip>
+<movieclip version="2.0.0">
 	<layer name="Layer 3" type="mask">
 		<frame>
 			<text x="12.65" y="0" width="139" height="39">
@@ -10,11 +10,11 @@
 		<frame>
 			<shape>
 				<fills>
-					<fill type="linear" colors="#FF0000,#FFEC69" ratios="0,1" x="81.5" y="22.6" matrix="0,-9.5,81.5,0" />
+					<fill type="linear" colors="#FF0000,#FFEC69" ratios="0,1" x0="81.5" y0="32.1" x1="81.5" y1="13.100000000000001" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M163,36.1L0,36.1L0,6.1L163,6.1L163,36.1" />
+						<contour edges="M163,36.1L163,6.1L0,6.1L0,36.1L163,36.1" />
 					</polygon>
 				</figure>
 			</shape>
