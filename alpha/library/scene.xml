@@ -1,12 +1,12 @@
 <movieclip version="2.0.0">
-	<layer name="кувшин">
+	<layer name="bottle">
 		<frame duration="101">
-			<instance libraryItem="Symbol 2" x="236.6" y="126.4" matrix="0.366912841796875,0,0,0.29022216796875" regX="55.6" regY="117.45">
+			<instance libraryItem="bottle" x="236.6" y="126.4" matrix="0.366912841796875,0,0,0.29022216796875" regX="55.6" regY="117.45">
 				<color type="alpha" value="0.80078125" />
 			</instance>
 		</frame>
 	</layer>
-	<layer name="Layer 5" type="mask">
+	<layer name="mask" type="mask">
 		<frame duration="101">
 			<shape>
 				<fills>
@@ -22,12 +22,12 @@
 			</shape>
 		</frame>
 	</layer>
-	<layer name="Layer 6" parentIndex="1">
+	<layer name="water" parentIndex="1">
 		<frame duration="100" tweenType="motion">
-			<instance libraryItem="mcWater" x="238.5" y="194.65" regX="18.5" regY="15.9" />
+			<instance libraryItem="water" x="238.5" y="194.65" regX="18.5" regY="15.9" />
 		</frame>
 		<frame tweenType="motion">
-			<instance libraryItem="mcWater" x="241.5" y="151.2" regX="18.5" regY="15.9" />
+			<instance libraryItem="water" x="241.5" y="151.2" regX="18.5" regY="15.9" />
 		</frame>
 	</layer>
 </movieclip>
