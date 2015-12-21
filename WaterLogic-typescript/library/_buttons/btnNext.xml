@@ -1,9 +1,9 @@
-<movieclip version="2.0.0" likeButton="true">
+<movieclip version="2.1.0" likeButton="true">
 	<layer name="Layer 1">
 		<frame duration="3">
 			<instance libraryItem="_buttons/Next" x="-0.05" y="1.05" matrix="1.15655517578125,0,0,1.15655517578125" regX="35.75" regY="9.9">
 				<filters>
-					<GlowFilter blurX="2" blurY="2" color="#000000" quality="2" strength="200" />
+					<GlowFilter alpha="100" blurX="2" blurY="2" color="#000000" inner="false" knockout="false" quality="2" strength="200" />
 				</filters>
 			</instance>
 		</frame>

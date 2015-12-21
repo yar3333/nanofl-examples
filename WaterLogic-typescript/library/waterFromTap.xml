@@ -1,4 +1,4 @@
-<movieclip version="2.0.0">
+<movieclip version="2.1.0">
 	<layer name="Layer 1">
 		<frame duration="4">
 			<shape>
@@ -27,7 +27,7 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.55" cy="30" r="8.216315130744041" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.55" cy="30" r="8.21631513074404" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
@@ -39,7 +39,7 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.9" cy="29.5" r="8.304030404943166" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-180.9" cy="29.5" r="8.30403040494317" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
@@ -63,7 +63,7 @@
 		<frame duration="5">
 			<shape>
 				<fills>
-					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-178.4" cy="30" r="8.620904850194803" />
+					<fill type="radial" colors="#A4D9FF,#043EFF" ratios="0,1" cx="-178.4" cy="30" r="8.6209048501948" />
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
