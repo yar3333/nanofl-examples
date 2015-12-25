@@ -47,7 +47,13 @@
                                                   <Matrix tx="-32" ty="207.4"/>
                                              </matrix>
                                              <fill>
-                                                  <SolidColor color="#FF0000"/>
+                                                  <RadialGradient focalPointRatio="-0.686274509803922">
+                                                       <matrix>
+                                                            <Matrix a="0.049072265625" b="-0.019622802734375" c="0.0612335205078125" d="0.153121948242188" tx="290.5" ty="66"/>
+                                                       </matrix>
+                                                       <GradientEntry color="#FF0000" ratio="0"/>
+                                                       <GradientEntry ratio="1"/>
+                                                  </RadialGradient>
                                              </fill>
                                         </DOMRectangleObject>
                                         <DOMRectangleObject objectWidth="141" objectHeight="72" x="220" y="30" lockFlag="true">
@@ -55,7 +61,13 @@
                                                   <Matrix tx="-32" ty="286.4"/>
                                              </matrix>
                                              <fill>
-                                                  <SolidColor color="#FF0000"/>
+                                                  <LinearGradient>
+                                                       <matrix>
+                                                            <Matrix a="0.0860595703125" d="0.0439453125" tx="290.5" ty="66"/>
+                                                       </matrix>
+                                                       <GradientEntry color="#FFFFFF" ratio="0"/>
+                                                       <GradientEntry ratio="1"/>
+                                                  </LinearGradient>
                                              </fill>
                                              <stroke>
                                                   <SolidStroke scaleMode="normal">
