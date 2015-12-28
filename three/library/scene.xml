@@ -1,0 +1,7 @@
+<movieclip version="2.0.0">
+	<layer>
+		<frame duration="1">
+			<instance libraryItem="testThreeObject" x="200" y="100" / >
+		</frame>
+	</layer>
+</movieclip>
