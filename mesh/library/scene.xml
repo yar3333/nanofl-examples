@@ -1,0 +1,10 @@
+<movieclip version="2.1.0">
+	<layer>
+		<frame duration="15" tweenType="motion">
+			<instance libraryItem="cube" rotationX="-7.63574660633485" rotationY="12.7262443438914" x="200" y="100" />
+		</frame>
+		<frame>
+			<instance libraryItem="cube" rotationX="-61.5950226244344" rotationY="66.685520361991" x="200" y="100" />
+		</frame>
+	</layer>
+</movieclip>
