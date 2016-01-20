@@ -1,11 +1,16 @@
 <movieclip version="2.1.0">
 	<layer name="Layer 1">
-		<frame duration="30" tweenType="motion">
+		<frame duration="30" tweenType="motion" motionTweenEasing="100">
 			<instance libraryItem="cube" rotationX="-34.61538461538461" rotationY="31.561085972850726" x="40" y="89" />
 			<instance libraryItem="cube2" rotationX="34.61538461538461" rotationY="-95.70135746606337" x="275.5" y="89" />
 		</frame>
-		<frame>
+		<frame duration="20" tweenType="motion" motionTweenEasing="-100">
 			<instance libraryItem="cube" rotationX="-136.4253393665159" rotationY="165.95022624434395" x="200" y="100" />
+			<instance libraryItem="cube2" rotationX="34.61538461538461" rotationY="-95.70135746606337" x="275.5" y="89" />
+		</frame>
+		<frame>
+			<instance libraryItem="cube2" rotationX="34.61538461538461" rotationY="-95.70135746606337" x="275.5" y="89" />
+			<instance libraryItem="cube" rotationX="-34.61538461538461" rotationY="31.561085972850726" x="40" y="89" />
 		</frame>
 	</layer>
 </movieclip>
