@@ -1,0 +1,7 @@
+<movieclip version="2.1.0">
+	<layer name="Layer 1">
+		<frame>
+			<instance libraryItem="geisha" x="259.5" y="283" />
+		</frame>
+	</layer>
+</movieclip>
