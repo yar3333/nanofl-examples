@@ -1,7 +1,10 @@
 <movieclip version="2.1.0">
 	<layer name="Layer 1">
+		<frame duration="45" tweenType="motion" motionTweenEasing="15">
+			<instance libraryItem="geisha" rotationX="-15" rotationY="135" cameraFov="25" ambientLightColor="#B4B4B4" directionalLightColor="#747474" directionalLightRotationY="-180" x="243.499999999948" y="345.999999999979" matrix="2.49999999999959,0,0,2.49999999999983" />
+		</frame>
 		<frame>
-			<instance libraryItem="geisha" x="259.5" y="283" />
+			<instance libraryItem="geisha" rotationX="-15" rotationY="135" cameraFov="25" ambientLightColor="#B4B4B4" directionalLightColor="#747474" directionalLightRotationY="180" x="243.499999999948" y="345.999999999979" matrix="2.49999999999959,0,0,2.49999999999983" />
 		</frame>
 	</layer>
 </movieclip>
