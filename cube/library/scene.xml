@@ -1,4 +1,4 @@
-<movieclip version="2.1.0">
+<movieclip version="2.2.0">
 	<layer name="Layer 1">
 		<frame duration="30" tweenType="motion" motionTweenEasing="100">
 			<instance libraryItem="cube" rotationX="-27.8846153846157" x="76" y="220" />
