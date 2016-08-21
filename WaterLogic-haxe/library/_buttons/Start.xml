@@ -1,7 +1,7 @@
-<movieclip version="2.1.0">
+<movieclip version="2.2.0">
 	<layer name="Layer 1" type="mask">
 		<frame>
-			<text x="-35" y="-18.8" width="96.93" height="52">
+			<text x="-35" y="-18.8" width="96.93333435058594" height="52">
 				<text-run characters="START" fillColor="#000000" size="38" family="Impact" />
 			</text>
 		</frame>
@@ -14,7 +14,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M64.57,26.621914893617L64.57,-14.408085106383L-38.5,-14.408085106383L-38.5,26.621914893617L64.57,26.621914893617" />
+						<contour edges="M64.57,26.62L64.57,-14.41L-38.5,-14.41L-38.5,26.62L64.57,26.62" />
 					</polygon>
 				</figure>
 			</shape>

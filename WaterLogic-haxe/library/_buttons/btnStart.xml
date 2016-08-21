@@ -1,4 +1,4 @@
-<movieclip version="2.1.0" likeButton="true">
+<movieclip version="2.2.0" likeButton="true">
 	<layer name="Layer 1">
 		<frame duration="3">
 			<instance libraryItem="_buttons/Start" x="1" y="1.45" regX="0.5" regY="0.25">
@@ -14,7 +14,7 @@
 				</fills>
 				<figure>
 					<polygon fillIndex="0">
-						<contour edges="M60.9195918367347,-13.03L-28.1104081632653,-13.03L-28.1104081632653,26.16L60.9195918367347,26.16L60.9195918367347,-13.03" />
+						<contour edges="M60.92,-13.03L-28.11,-13.03L-28.11,26.16L60.92,26.16L60.92,-13.03" />
 					</polygon>
 				</figure>
 			</shape>

@@ -1,4 +1,4 @@
-<movieclip version="2.1.0" autoPlay="false" loop="false" linkedClass="Scene">
+<movieclip version="2.2.0" autoPlay="false" loop="false" linkedClass="Scene">
 	<layer name="Label">
 		<frame label="Origin" />
 		<frame label="Rules" />
@@ -20,16 +20,16 @@
 		</frame>
 		<frame>
 			<instance libraryItem="_buttons/btnBack" name="btGotoOrigin" x="120.65" y="345.65" />
-			<text x="47.8" y="57.65" width="426.833343505859" height="268">
-				<text-run characters="You have to get specified&#xA;water volume in each bucket.&#xA;" fillColor="#00FFFF" align="center" size="17" style="bold" family="Comic Sans MS" />
-				<text-run characters="&#xA;" fillColor="#FFFF00" align="center" size="17" style="bold" family="Comic Sans MS" />
-				<text-run characters="You may do next:&#xA;   1) fill whole bucket from the tap;&#xA;   2) fallout all water from the bucket;&#xA;   3) transfuse water from one bucket to another." fillColor="#FFFF00" size="17" style="bold" family="Comic Sans MS" />
-				<text-run characters="&#xA;" fillColor="#6699FF" size="17" style="bold" family="Comic Sans MS" />
-				<text-run characters="&#xA;" fillColor="#6699FF" align="center" size="17" style="bold" family="Comic Sans MS" />
-				<text-run characters="Click on the bucket to get it.&#xA;Move mouse with bucket and&#xA;click again to do something else." fillColor="#00FFFF" align="center" size="17" style="bold" family="Comic Sans MS" />
+			<text x="47.8" y="57.65" width="426.8333435058594" height="268">
+				<text-run characters="You have to get specified&amp;#xA;water volume in each bucket.&amp;#xA;" fillColor="#00FFFF" align="center" size="17" style="bold" family="Comic Sans MS" />
+				<text-run characters="&amp;#xA;" fillColor="#FFFF00" align="center" size="17" style="bold" family="Comic Sans MS" />
+				<text-run characters="You may do next:&amp;#xA;   1) fill whole bucket from the tap;&amp;#xA;   2) fallout all water from the bucket;&amp;#xA;   3) transfuse water from one bucket to another." fillColor="#FFFF00" size="17" style="bold" family="Comic Sans MS" />
+				<text-run characters="&amp;#xA;" fillColor="#6699FF" size="17" style="bold" family="Comic Sans MS" />
+				<text-run characters="&amp;#xA;" fillColor="#6699FF" align="center" size="17" style="bold" family="Comic Sans MS" />
+				<text-run characters="Click on the bucket to get it.&amp;#xA;Move mouse with bucket and&amp;#xA;click again to do something else." fillColor="#00FFFF" align="center" size="17" style="bold" family="Comic Sans MS" />
 			</text>
 			<instance libraryItem="_buttons/btnStart" name="btGotoGame" x="385.5" y="340.747959183677" matrix="0.735443971701841,0,0,0.750000000000001" />
-			<text x="213.341204630291" y="7.85" matrix="2.01708984375,0,0,2.01708984375" regX="72" regY="8.4" width="47.1833343505859" height="27">
+			<text x="213.341204630291" y="7.85" matrix="2.01708984375,0,0,2.01708984375" regX="72" regY="8.4" width="47.18333435058594" height="27">
 				<text-run characters="RULES" fillColor="#FF9900" align="center" size="18" family="Impact" />
 			</text>
 		</frame>
@@ -45,16 +45,16 @@
 		<frame>
 			<instance libraryItem="_buttons/btnNext" x="260.1" y="298.25" matrix="1.0517578125,0,0,1.0517578125" />
 			<text x="135.95" y="74.5" matrix="1,0,0,1.11320495605469" width="248.1" height="152">
-				<text-run characters="Success!&#xA;&#xA;" fillColor="#FFFF00" align="center" size="29" family="Impact" />
-				<text-run characters="Task was not simple,&#xA;but you was smart!" fillColor="#00FFFF" align="center" size="29" family="Impact" />
+				<text-run characters="Success!&amp;#xA;&amp;#xA;" fillColor="#FFFF00" align="center" size="29" family="Impact" />
+				<text-run characters="Task was not simple,&amp;#xA;but you was smart!" fillColor="#00FFFF" align="center" size="29" family="Impact" />
 			</text>
 		</frame>
 		<frame>
 			<instance libraryItem="_buttons/btnNext" x="260.1" y="302.3" />
 			<text x="130.05" y="72.85" width="259.9" height="176">
 				<text-run characters="All tasks are done!" fillColor="#00FF00" align="center" size="34" family="Impact" />
-				<text-run characters="&#xA;" fillColor="#FFCC00" align="center" size="34" family="Impact" />
-				<text-run characters="&#xA;You are smart&#xA;and clever!" fillColor="#FFFF00" align="center" size="34" family="Impact" />
+				<text-run characters="&amp;#xA;" fillColor="#FFCC00" align="center" size="34" family="Impact" />
+				<text-run characters="&amp;#xA;You are smart&amp;#xA;and clever!" fillColor="#FFFF00" align="center" size="34" family="Impact" />
 			</text>
 		</frame>
 	</layer>
