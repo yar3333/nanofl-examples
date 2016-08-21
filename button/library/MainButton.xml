@@ -1,4 +1,4 @@
-<movieclip version="2.0.0" linkedClass="MainButtonClass">
+<movieclip version="2.2.0" linkedClass="MainButtonClass">
 	<layer name="Layer 0">
 		<frame>
 			<shape>
