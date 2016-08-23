@@ -1,4 +1,4 @@
-<movieclip version="2.0.0" linkedClass="MyScene">
+<movieclip version="2.2.0">
 	<layer name="Label">
 		<frame>
 			<instance libraryItem="tweenBottle" x="194.5" y="66" matrix="0.544444444444392,0,0,0.544444444444447" />
