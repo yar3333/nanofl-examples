@@ -1,3 +1,11 @@
-WaterLogic-haxe: WaterLogic-haxe/WaterLogic.nfl
-WaterLogic-haxe/WaterLogic.nfl: WaterLogic-flash/WaterLogic.xfl
-	../ide/standalone/nanoflc.exe WaterLogic-flash/WaterLogic.xfl -generator CreateJS,mode=Haxe/FlashDevelop -export $@
+DST = $(shell /bin/find . -maxdepth 1 -mindepth 1 -type d -not \( -path "*.release" -o -path "*-flash" -o -path './.*' \) -printf '%p.release\n')
+
+build: $(DST)
+
+rebuild: clean build
+
+clean:
+	rm -rf $(DST)
+
+%.release:
+	../ide/standalone/nanoflc.exe $(basename $@)/$(basename $@).nfl -publish
