@@ -17,7 +17,7 @@
 		<param name="isGenerateWavSounds" value="true" />
 		<param name="audioQuality" value="128" />
 		<param name="urlOnClick" value="" />
-		<param name="useLocalScripts" value="true" />
+		<param name="useLocalScripts" value="false" />
 		<param name="forceSoftwareRenderer" value="false" />
 	</publishSettings>
 </nanofl>
