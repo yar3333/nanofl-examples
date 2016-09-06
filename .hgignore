@@ -1,4 +1,2 @@
 syntax: glob
-*.suo
-*.release
 */gen/
