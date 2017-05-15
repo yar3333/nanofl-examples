@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>earth</title>
+	</head>
+	<body style="background-color:#999999; margin:0; padding:0; font-size:0; overflow:hidden">
+		<canvas id="mainCanvas" width="520" height="390" style="position:relative"></canvas>
+		<script src="createjs-0.8.0.js"></script>
+		<script src="three-r84.js"></script>
+		<script src="nanofl-3.1.0.js"></script>
+		<script src="library.js"></script>
+		<script src="application.js"></script>
+		<script>
+			nanofl.Player.init(document.getElementById("mainCanvas"), nanofl.DataTools.unserialize(serializedLibrary), 24, 'noScale');
+		</script>
+	</body>
+</html>

@@ -1,0 +1,7 @@
+<movieclip version="2.2.0" linkedClass="Scene">
+	<layer name="bottle">
+		<frame>
+			<threeView libraryItem="earth" matrix="1,0,0,1" name="myEarth" width="520" height="390" />
+		</frame>
+	</layer>
+</movieclip>
