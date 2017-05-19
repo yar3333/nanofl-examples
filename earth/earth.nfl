@@ -19,5 +19,6 @@
 		<param name="urlOnClick" value="" />
 		<param name="useLocalScripts" value="true" />
 		<param name="forceSoftwareRenderer" value="false" />
+		<param name="shareForDevices" value="true" />
 	</publishSettings>
 </nanofl>
