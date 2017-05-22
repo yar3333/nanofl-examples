@@ -53,7 +53,7 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Webserver" />
-    <option testMovieCommand="../earth.release/earth.html" />
+    <option testMovieCommand="../earth.release/index.html" />
   </options>
   <!-- Plugin storage -->
   <storage />
