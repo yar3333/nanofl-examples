@@ -7284,17 +7284,28 @@ nanofl_MovieClip3D.prototype = $extend(THREE.Group.prototype,{
 	}
 	,__class__: nanofl_MovieClip3D
 });
+var nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$ = {};
+$hxClasses["nanofl._ObjectWithNamedChildren.ObjectWithNamedChildren_Impl_"] = nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$;
+nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$.__name__ = ["nanofl","_ObjectWithNamedChildren","ObjectWithNamedChildren_Impl_"];
+nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$.get_childByName = function(this1) {
+	return this1;
+};
 var nanofl_Player = $hx_exports["nanofl"]["Player"] = function() { };
 $hxClasses["nanofl.Player"] = nanofl_Player;
 nanofl_Player.__name__ = ["nanofl","Player"];
-nanofl_Player.init = function(canvas,library,framerate,scaleMode,textureAtlasesData) {
+nanofl_Player.init = function(container,library,framerate,scaleMode,textureAtlasesData) {
 	if(scaleMode == null) {
 		scaleMode = "custom";
 	}
 	if(framerate == null) {
 		framerate = 24.0;
 	}
+	nanofl_Player.container = container;
 	nanofl_Player.library = library;
+	container.innerHTML = "";
+	var canvas = window.document.createElement("canvas");
+	canvas.style.position = "absolute";
+	container.appendChild(canvas);
 	if(textureAtlasesData != null) {
 		var _g = 0;
 		while(_g < textureAtlasesData.length) {
@@ -7316,12 +7327,13 @@ nanofl_Player.init = function(canvas,library,framerate,scaleMode,textureAtlasesD
 	library.preload(function() {
 		nanofl_Player.stage = new nanofl_Stage(canvas);
 		if(scaleMode != nanofl_engine_ScaleMode.custom) {
-			var originalCanvasWidth = canvas.width;
-			var originalCanvasHeight = canvas.height;
+			var computedContainerStyles = window.getComputedStyle(container);
+			var originalWidth = container.offsetWidth;
+			var originalHeight = container.offsetHeight;
 			window.addEventListener("resize",function() {
-				nanofl_Player.resize(canvas,scaleMode,originalCanvasWidth,originalCanvasHeight);
+				nanofl_Player.resize(scaleMode,originalWidth,originalHeight);
 			});
-			nanofl_Player.resize(canvas,scaleMode,originalCanvasWidth,originalCanvasHeight);
+			nanofl_Player.resize(scaleMode,originalWidth,originalHeight);
 		}
 		nanofl_Player.stage.addChild(nanofl_Player.scene = library.getSceneInstance().createDisplayObject(null));
 		nanofl_DisplayObjectTools2D.callMethod(nanofl_Player.scene,"init");
@@ -7335,7 +7347,7 @@ nanofl_Player.init = function(canvas,library,framerate,scaleMode,textureAtlasesD
 		});
 	});
 };
-nanofl_Player.resize = function(canvas,scaleMode,originalCanvasWidth,originalCanvasHeight) {
+nanofl_Player.resize = function(scaleMode,originalWidth,originalHeight) {
 	var tmp = Std.string(window.innerWidth);
 	window.document.body.style.width = tmp + "px";
 	var tmp1 = Std.string(window.innerHeight);
@@ -7344,25 +7356,37 @@ nanofl_Player.resize = function(canvas,scaleMode,originalCanvasWidth,originalCan
 	var ky;
 	switch(scaleMode) {
 	case nanofl_engine_ScaleMode.fill:
-		ky = Math.max(window.innerWidth / originalCanvasWidth,window.innerHeight / originalCanvasHeight);
+		ky = Math.max(window.innerWidth / originalWidth,window.innerHeight / originalHeight);
 		kx = ky;
 		break;
 	case nanofl_engine_ScaleMode.fit:
-		ky = Math.min(window.innerWidth / originalCanvasWidth,window.innerHeight / originalCanvasHeight);
+		ky = Math.min(window.innerWidth / originalWidth,window.innerHeight / originalHeight);
 		kx = ky;
 		break;
 	case nanofl_engine_ScaleMode.stretch:
-		kx = window.innerWidth / originalCanvasWidth;
-		ky = window.innerHeight / originalCanvasHeight;
+		kx = window.innerWidth / originalWidth;
+		ky = window.innerHeight / originalHeight;
 		break;
 	default:
 		ky = 1;
 		kx = ky;
 	}
-	canvas.width = Math.round(originalCanvasWidth * kx);
-	canvas.height = Math.round(originalCanvasHeight * ky);
-	canvas.style.left = Math.round((window.innerWidth - canvas.width) / 2) + "px";
-	canvas.style.top = Math.round((window.innerHeight - canvas.height) / 2) + "px";
+	var w = Math.round(originalWidth * kx);
+	var h = Math.round(originalHeight * ky);
+	nanofl_Player.container.style.width = w + "px";
+	nanofl_Player.container.style.height = h + "px";
+	var _g = 0;
+	var _g1 = nanofl_Player.container.children;
+	while(_g < _g1.length) {
+		var node = _g1[_g];
+		++_g;
+		if(node.tagName.toUpperCase() == "CANVAS") {
+			node.width = w;
+			node.height = h;
+		}
+	}
+	nanofl_Player.container.style.left = Math.round((window.innerWidth - nanofl_Player.container.offsetWidth) / 2) + "px";
+	nanofl_Player.container.style.top = Math.round((window.innerHeight - nanofl_Player.container.offsetHeight) / 2) + "px";
 	nanofl_Player.stage.scaleX = kx;
 	nanofl_Player.stage.scaleY = ky;
 };
@@ -8149,12 +8173,14 @@ nanofl_TextRun.prototype = {
 	,__class__: nanofl_TextRun
 };
 var nanofl_ThreeView = $hx_exports["nanofl"]["ThreeView"] = function(object) {
+	this.forceSoftwareRenderer = false;
 	this.height = 150;
 	this.width = 200;
 	this.directionalLight = new THREE.DirectionalLight(8421504,1);
 	this.ambientLight = new THREE.AmbientLight(14737632);
 	this.autoCamera = true;
 	this.camera = new THREE.PerspectiveCamera(70,1,0,1e7);
+	this.renderTo = "memory";
 	this.rotationZ = 0.0;
 	this.rotationY = 0.0;
 	this.rotationX = 0.0;
@@ -8176,9 +8202,10 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 	,rotationY: null
 	,rotationZ: null
 	,scene: null
+	,renderTo: null
 	,_renderer: null
 	,get_renderer: function() {
-		return this._renderer = nanofl_engine_RendererTools3D.updateRenderer(this._renderer,this.width,this.height);
+		return this._renderer = nanofl_engine_ThreeRenderTools.updateRenderer(this._renderer,this.width,this.height,this.forceSoftwareRenderer,this.renderTo);
 	}
 	,camera: null
 	,autoCamera: null
@@ -8186,6 +8213,7 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 	,directionalLight: null
 	,width: null
 	,height: null
+	,forceSoftwareRenderer: null
 	,boundingRadius: null
 	,clone: function(recursive) {
 		var r = this._cloneProps(new nanofl_ThreeView(this.object));
@@ -8209,8 +8237,13 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 	}
 	,update: function() {
 		this.removeAllChildren();
-		var bitmap = new createjs.Bitmap(this.get_renderer().domElement);
-		this.addChild(bitmap);
+		var dislayObject;
+		if(this.renderTo == "memory") {
+			dislayObject = new createjs.Bitmap(this.get_renderer().domElement);
+		} else {
+			dislayObject = new createjs.DOMElement(this.get_renderer().domElement);
+		}
+		this.addChild(dislayObject);
 		this.object.setRotationFromEuler(new THREE.Euler(this.rotationX * nanofl_ThreeView.DEG_TO_RAD,this.rotationY * nanofl_ThreeView.DEG_TO_RAD,this.rotationZ * nanofl_ThreeView.DEG_TO_RAD));
 		this.object.updateMatrix();
 		var posZ = this.boundingRadius / Math.sin(this.camera.fov / 2 * nanofl_ThreeView.DEG_TO_RAD);
@@ -8235,7 +8268,7 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 		if(this.directionalLight != null) {
 			this.scene.add(this.directionalLight);
 		}
-		nanofl_engine_RendererTools3D.render(this.get_renderer(),this.scene,this.camera);
+		nanofl_engine_ThreeRenderTools.render(this.get_renderer(),this.scene,this.camera);
 	}
 	,__class__: nanofl_ThreeView
 });
@@ -9904,40 +9937,6 @@ nanofl_engine_MovieClipItemTools2D.hasInstance = function(item,namePath,deep) {
 	}
 	return found;
 };
-var nanofl_engine_RendererTools3D = function() { };
-$hxClasses["nanofl.engine.RendererTools3D"] = nanofl_engine_RendererTools3D;
-nanofl_engine_RendererTools3D.__name__ = ["nanofl","engine","RendererTools3D"];
-nanofl_engine_RendererTools3D.isWebGLSupported = function() {
-	if(nanofl_engine_RendererTools3D._isWebGLSupported == null) {
-		var canvas = window.document.createElement("canvas");
-		nanofl_engine_RendererTools3D._isWebGLSupported = !(!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))));
-	}
-	return nanofl_engine_RendererTools3D._isWebGLSupported;
-};
-nanofl_engine_RendererTools3D.updateRenderer = function(_renderer,renderAreaWidth,renderAreaHeight) {
-	if(_renderer != null) {
-		if(!nanofl_ThreeView.forceSoftwareRenderer && nanofl_engine_RendererTools3D.isWebGLSupported()) {
-			if(!js_Boot.__instanceof(_renderer,THREE.WebGLRenderer)) {
-				_renderer = null;
-			}
-		} else if(!js_Boot.__instanceof(_renderer,THREE.CanvasRenderer)) {
-			_renderer = null;
-		}
-	}
-	if(_renderer == null) {
-		var canvas = window.document.createElement("canvas");
-		if(!nanofl_ThreeView.forceSoftwareRenderer && nanofl_engine_RendererTools3D.isWebGLSupported()) {
-			_renderer = new THREE.WebGLRenderer({ canvas : canvas, alpha : true});
-		} else {
-			_renderer = new THREE.CanvasRenderer({ canvas : canvas, alpha : true});
-		}
-	}
-	_renderer.setSize(renderAreaWidth,renderAreaHeight);
-	return _renderer;
-};
-nanofl_engine_RendererTools3D.render = function(renderer,scene,camera) {
-	renderer.render(scene,camera);
-};
 var nanofl_engine_ScaleMode = function() { };
 $hxClasses["nanofl.engine.ScaleMode"] = nanofl_engine_ScaleMode;
 nanofl_engine_ScaleMode.__name__ = ["nanofl","engine","ScaleMode"];
@@ -9964,6 +9963,59 @@ nanofl_engine_TextureItemTools.preload = function(item,ready) {
 	} else {
 		ready();
 	}
+};
+var nanofl_engine_ThreeRenderTools = function() { };
+$hxClasses["nanofl.engine.ThreeRenderTools"] = nanofl_engine_ThreeRenderTools;
+nanofl_engine_ThreeRenderTools.__name__ = ["nanofl","engine","ThreeRenderTools"];
+nanofl_engine_ThreeRenderTools.isWebGLSupported = function() {
+	if(nanofl_engine_ThreeRenderTools._isWebGLSupported == null) {
+		var canvas = window.document.createElement("canvas");
+		nanofl_engine_ThreeRenderTools._isWebGLSupported = !(!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))));
+	}
+	return nanofl_engine_ThreeRenderTools._isWebGLSupported;
+};
+nanofl_engine_ThreeRenderTools.updateRenderer = function(_renderer,renderAreaWidth,renderAreaHeight,forceSoftwareRenderer,renderTo) {
+	if(_renderer != null) {
+		if(_renderer.renderTo != renderTo) {
+			nanofl_engine_ThreeRenderTools.detachNode(_renderer.domElement);
+			_renderer = null;
+		} else if(!forceSoftwareRenderer && nanofl_engine_ThreeRenderTools.isWebGLSupported()) {
+			if(!js_Boot.__instanceof(_renderer,THREE.WebGLRenderer)) {
+				nanofl_engine_ThreeRenderTools.detachNode(_renderer.domElement);
+				_renderer = null;
+			}
+		} else if(!js_Boot.__instanceof(_renderer,THREE.CanvasRenderer)) {
+			nanofl_engine_ThreeRenderTools.detachNode(_renderer.domElement);
+			_renderer = null;
+		}
+	}
+	if(_renderer == null) {
+		var canvas = window.document.createElement("canvas");
+		if(!forceSoftwareRenderer && nanofl_engine_ThreeRenderTools.isWebGLSupported()) {
+			_renderer = new THREE.WebGLRenderer({ canvas : canvas, alpha : true});
+		} else {
+			_renderer = new THREE.CanvasRenderer({ canvas : canvas, alpha : true});
+		}
+		_renderer.renderTo = renderTo;
+		if(renderTo == "backCanvas") {
+			nanofl_Player.stage.canvas.parentElement.insertBefore(_renderer.domElement,nanofl_Player.stage.canvas);
+		} else if(renderTo == "frontCanvas") {
+			nanofl_Player.stage.canvas.parentElement.insertBefore(_renderer.domElement,nanofl_Player.stage.canvas.nextSibling);
+		}
+	}
+	_renderer.setSize(renderAreaWidth,renderAreaHeight);
+	return _renderer;
+};
+nanofl_engine_ThreeRenderTools.render = function(renderer,scene,camera) {
+	renderer.render(scene,camera);
+};
+nanofl_engine_ThreeRenderTools.detachNode = function(node) {
+	var parent = node.parentNode;
+	var next = node.nextSibling;
+	if(parent == null) {
+		return;
+	}
+	parent.removeChild(node);
 };
 var nanofl_engine_Version = function() { };
 $hxClasses["nanofl.engine.Version"] = nanofl_engine_Version;
@@ -10954,7 +11006,7 @@ nanofl_engine_elements2D_Element.parse = function(node,version) {
 		element = new nanofl_engine_elements2D_TextElement(null,null,null,null,null,null);
 		break;
 	case "threeView":
-		element = new nanofl_engine_elements2D_ThreeViewElement(null,null,null,null);
+		element = new nanofl_engine_elements2D_ThreeViewElement(null,null,null,null,null,null);
 		break;
 	}
 	if(element != null) {
@@ -12800,16 +12852,24 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 	}
 	,__class__: nanofl_engine_elements2D_TextElement
 });
-var nanofl_engine_elements2D_ThreeViewElement = function(namePath,name,width,height) {
+var nanofl_engine_elements2D_ThreeViewElement = function(namePath,name,width,height,forceSoftwareRenderer,renderTo) {
 	nanofl_engine_elements2D_Element.call(this);
 	this.namePath = namePath;
 	this.name = name;
 	this.width = width;
 	this.height = height;
+	this.forceSoftwareRenderer = forceSoftwareRenderer;
+	this.renderTo = renderTo;
 };
 $hxClasses["nanofl.engine.elements2D.ThreeViewElement"] = nanofl_engine_elements2D_ThreeViewElement;
 nanofl_engine_elements2D_ThreeViewElement.__name__ = ["nanofl","engine","elements2D","ThreeViewElement"];
-nanofl_engine_elements2D_ThreeViewElement.create = function(symbol,name,width,height) {
+nanofl_engine_elements2D_ThreeViewElement.create = function(symbol,name,width,height,forceSoftwareRenderer,renderTo) {
+	if(renderTo == null) {
+		renderTo = "memory";
+	}
+	if(forceSoftwareRenderer == null) {
+		forceSoftwareRenderer = false;
+	}
 	if(height == null) {
 		height = 150;
 	}
@@ -12819,8 +12879,8 @@ nanofl_engine_elements2D_ThreeViewElement.create = function(symbol,name,width,he
 	if(name == null) {
 		name = "";
 	}
-	stdlib_Debug.assert(symbol.library != null,"Item '" + symbol.namePath + "' must be added to library before instantiate.",{ fileName : "ThreeViewElement.hx", lineNumber : 38, className : "nanofl.engine.elements2D.ThreeViewElement", methodName : "create"});
-	var r = new nanofl_engine_elements2D_ThreeViewElement(symbol.namePath,name,width,height);
+	stdlib_Debug.assert(symbol.library != null,"Item '" + symbol.namePath + "' must be added to library before instantiate.",{ fileName : "ThreeViewElement.hx", lineNumber : 42, className : "nanofl.engine.elements2D.ThreeViewElement", methodName : "create"});
+	var r = new nanofl_engine_elements2D_ThreeViewElement(symbol.namePath,name,width,height,forceSoftwareRenderer,renderTo);
 	r.setLibrary(symbol.library);
 	return r;
 };
@@ -12831,6 +12891,8 @@ nanofl_engine_elements2D_ThreeViewElement.prototype = $extend(nanofl_engine_elem
 	,name: null
 	,width: null
 	,height: null
+	,forceSoftwareRenderer: null
+	,renderTo: null
 	,get_symbol: function() {
 		return js_Boot.__cast(this.library.getItem(this.namePath) , nanofl_engine_libraryitems_InstancableItem3D);
 	}
@@ -12843,17 +12905,21 @@ nanofl_engine_elements2D_ThreeViewElement.prototype = $extend(nanofl_engine_elem
 		}
 		this.namePath = htmlparser_HtmlParserTools.getAttr(node,"libraryItem","");
 		this.name = htmlparser_HtmlParserTools.getAttr(node,"name","");
-		this.width = htmlparser_HtmlParserTools.getAttrInt(node,"width",this.width);
-		this.height = htmlparser_HtmlParserTools.getAttrInt(node,"height",this.height);
+		this.width = htmlparser_HtmlParserTools.getAttrInt(node,"width",200);
+		this.height = htmlparser_HtmlParserTools.getAttrInt(node,"height",150);
+		this.forceSoftwareRenderer = htmlparser_HtmlParserTools.getAttrBool(node,"forceSoftwareRenderer",false);
+		this.renderTo = htmlparser_HtmlParserTools.getAttrString(node,"renderTo","memory");
 		return true;
 	}
 	,save: function(out) {
 		out.begin("threeView");
 		out.attr("libraryItem",this.namePath,"");
 		nanofl_engine_elements2D_Element.prototype.save.call(this,out);
-		out.attr("name",this.name);
+		out.attr("name",this.name,"");
 		out.attr("width",this.width);
 		out.attr("height",this.height);
+		out.attr("forceSoftwareRenderer",this.forceSoftwareRenderer,false);
+		out.attr("renderTo",this.renderTo,"memory");
 		out.end();
 	}
 	,createDisplayObject: function(frameIndexes) {
@@ -12865,12 +12931,14 @@ nanofl_engine_elements2D_ThreeViewElement.prototype = $extend(nanofl_engine_elem
 		return dispObj;
 	}
 	,updateDisplayObject: function(dispObj,frameIndexes) {
-		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_ThreeView),null,{ fileName : "ThreeViewElement.hx", lineNumber : 90, className : "nanofl.engine.elements2D.ThreeViewElement", methodName : "updateDisplayObject"});
+		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_ThreeView),null,{ fileName : "ThreeViewElement.hx", lineNumber : 98, className : "nanofl.engine.elements2D.ThreeViewElement", methodName : "updateDisplayObject"});
 		this.updateDisplayObjectProperties(dispObj);
 		var view = dispObj;
 		view.setBounds(0,0,this.width,this.height);
 		view.width = this.width;
 		view.height = this.height;
+		view.forceSoftwareRenderer = this.forceSoftwareRenderer;
+		view.renderTo = this.renderTo;
 		view.update();
 		return view;
 	}
@@ -12894,10 +12962,16 @@ nanofl_engine_elements2D_ThreeViewElement.prototype = $extend(nanofl_engine_elem
 		if(element.height != this.height) {
 			return false;
 		}
+		if(element.forceSoftwareRenderer != this.forceSoftwareRenderer) {
+			return false;
+		}
+		if(element.renderTo != this.renderTo) {
+			return false;
+		}
 		return true;
 	}
 	,clone: function() {
-		var obj = new nanofl_engine_elements2D_ThreeViewElement(this.namePath,this.name,this.width,this.height);
+		var obj = new nanofl_engine_elements2D_ThreeViewElement(this.namePath,this.name,this.width,this.height,this.forceSoftwareRenderer,this.renderTo);
 		this.copyBaseProperties(obj);
 		return obj;
 	}
@@ -18696,8 +18770,8 @@ nanofl_engine_libraryitems_MeshItem3D.parseMaterials = function(json) {
 	return r;
 };
 nanofl_engine_libraryitems_MeshItem3D.parseImages = function(namePath,json) {
-	nanofl_engine_libraryitems_MeshItem3D.log("parseImages " + namePath,{ fileName : "MeshItem3D.hx", lineNumber : 134, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
-	nanofl_engine_libraryitems_MeshItem3D.log(json.images,{ fileName : "MeshItem3D.hx", lineNumber : 135, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
+	nanofl_engine_libraryitems_MeshItem3D.log("parseImages " + namePath,{ fileName : "MeshItem3D.hx", lineNumber : 144, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
+	nanofl_engine_libraryitems_MeshItem3D.log(json.images,{ fileName : "MeshItem3D.hx", lineNumber : 145, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
 	var r = [];
 	if(json.images) {
 		var _g = 0;
@@ -18719,6 +18793,7 @@ nanofl_engine_libraryitems_MeshItem3D.parse = function(namePath,itemNode) {
 	return item;
 };
 nanofl_engine_libraryitems_MeshItem3D.log = function(v,infos) {
+	haxe_Log.trace(Reflect.isFunction(v) ? v() : v,infos);
 };
 nanofl_engine_libraryitems_MeshItem3D.__super__ = nanofl_engine_libraryitems_InstancableItem3D;
 nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryitems_InstancableItem3D.prototype,{
@@ -18788,7 +18863,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 	}
 	,preload: function(ready) {
 		var _gthis = this;
-		stdlib_Debug.assert(this.library != null,"You need to add item '" + this.namePath + "' to the library before preload call.",{ fileName : "MeshItem3D.hx", lineNumber : 213, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+		stdlib_Debug.assert(this.library != null,"You need to add item '" + this.namePath + "' to the library before preload call.",{ fileName : "MeshItem3D.hx", lineNumber : 223, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
 		nanofl_engine_Loader.file(this.getUrl(),function(s) {
 			var _g = _gthis.ext.toLowerCase();
 			if(_g == "json") {
@@ -18810,7 +18885,9 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 					var loader = new THREE.ObjectLoader();
 					loader.setTexturePath(_gthis.library.realUrl(""));
 					_gthis.object3D = loader.parse(json);
-					var tmp = _gthis.object3D.type == "Scene";
+					if(_gthis.object3D.type == "Mesh") {
+						nanofl_engine_libraryitems_MeshItem3D.log("THIS IS NOT A MESH (namePath = " + _gthis.namePath + "; type = " + _gthis.object3D.type + ")",{ fileName : "MeshItem3D.hx", lineNumber : 263, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+					}
 				} else {
 					var loader1 = new THREE.JSONLoader();
 					var data = loader1.parse(json,_gthis.library.realUrl(""));
@@ -18835,7 +18912,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 					ready();
 				}
 			} else {
-				stdlib_Debug.assert(false,"Unknow Mesh file extension ('" + _gthis.ext + "').",{ fileName : "MeshItem3D.hx", lineNumber : 298, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+				stdlib_Debug.assert(false,"Unknow Mesh file extension ('" + _gthis.ext + "').",{ fileName : "MeshItem3D.hx", lineNumber : 307, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
 			}
 		});
 	}
@@ -18843,7 +18920,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 		var _gthis = this;
 		this.boundingRadius = 0.0;
 		this.object3D.traverse(function(object) {
-			nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius object " + object.type + " / " + object.name,{ fileName : "MeshItem3D.hx", lineNumber : 309, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
+			nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius object " + object.type + " / " + object.name,{ fileName : "MeshItem3D.hx", lineNumber : 318, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
 			if(object.type == "Mesh") {
 				var mesh = object;
 				mesh.updateMatrixWorld(true);
@@ -18862,17 +18939,17 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 			}
 		});
 		this.boundingRadius = Math.sqrt(this.boundingRadius);
-		nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius boundingRadius = " + this.boundingRadius,{ fileName : "MeshItem3D.hx", lineNumber : 330, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
+		nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius boundingRadius = " + this.boundingRadius,{ fileName : "MeshItem3D.hx", lineNumber : 339, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
 	}
 	,createDisplayObject: function(initFrameIndex,childFrameIndexes) {
 		return this.object3D.clone();
 	}
 	,updateDisplayObject: function(dispObj,childFrameIndexes) {
-		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,THREE.Object3D),null,{ fileName : "MeshItem3D.hx", lineNumber : 340, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateDisplayObject"});
+		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,THREE.Object3D),null,{ fileName : "MeshItem3D.hx", lineNumber : 349, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateDisplayObject"});
 		var mesh = dispObj;
 	}
 	,getDisplayObjectClassName: function() {
-		return "js.three.Object3D";
+		return "js.three.Mesh";
 	}
 	,equ: function(item) {
 		if(item.namePath != this.namePath) {
@@ -22885,7 +22962,9 @@ nanofl_TextField.editing = false;
 nanofl_TextField.selectionStart = 0;
 nanofl_TextField.selectionEnd = 0;
 nanofl_ThreeView.DEG_TO_RAD = Math.PI / 180;
-nanofl_ThreeView.forceSoftwareRenderer = false;
+nanofl_ThreeView.RENDER_TO_MEMORY = "memory";
+nanofl_ThreeView.RENDER_TO_BACK_CANVAS = "backCanvas";
+nanofl_ThreeView.RENDER_TO_FRONT_CANVAS = "frontCanvas";
 nanofl_engine_ColorTools.colors = { "aliceblue" : "#f0f8ff", "antiquewhite" : "#faebd7", "aqua" : "#00ffff", "aquamarine" : "#7fffd4", "azure" : "#f0ffff", "beige" : "#f5f5dc", "bisque" : "#ffe4c4", "black" : "#000000", "blanchedalmond" : "#ffebcd", "blue" : "#0000ff", "blueviolet" : "#8a2be2", "brown" : "#a52a2a", "burlywood" : "#deb887", "cadetblue" : "#5f9ea0", "chartreuse" : "#7fff00", "chocolate" : "#d2691e", "coral" : "#ff7f50", "cornflowerblue" : "#6495ed", "cornsilk" : "#fff8dc", "crimson" : "#dc143c", "cyan" : "#00ffff", "darkblue" : "#00008b", "darkcyan" : "#008b8b", "darkgoldenrod" : "#b8860b", "darkgray" : "#a9a9a9", "darkgreen" : "#006400", "darkkhaki" : "#bdb76b", "darkmagenta" : "#8b008b", "darkolivegreen" : "#556b2f", "darkorange" : "#ff8c00", "darkorchid" : "#9932cc", "darkred" : "#8b0000", "darksalmon" : "#e9967a", "darkseagreen" : "#8fbc8f", "darkslateblue" : "#483d8b", "darkslategray" : "#2f4f4f", "darkturquoise" : "#00ced1", "darkviolet" : "#9400d3", "deeppink" : "#ff1493", "deepskyblue" : "#00bfff", "dimgray" : "#696969", "dodgerblue" : "#1e90ff", "firebrick" : "#b22222", "floralwhite" : "#fffaf0", "forestgreen" : "#228b22", "fuchsia" : "#ff00ff", "gainsboro" : "#dcdcdc", "ghostwhite" : "#f8f8ff", "gold" : "#ffd700", "goldenrod" : "#daa520", "gray" : "#808080", "grey" : "#808080", "green" : "#008000", "greenyellow" : "#adff2f", "honeydew" : "#f0fff0", "hotpink" : "#ff69b4", "indianred " : "#cd5c5c", "indigo" : "#4b0082", "ivory" : "#fffff0", "khaki" : "#f0e68c", "lavender" : "#e6e6fa", "lavenderblush" : "#fff0f5", "lawngreen" : "#7cfc00", "lemonchiffon" : "#fffacd", "lightblue" : "#add8e6", "lightcoral" : "#f08080", "lightcyan" : "#e0ffff", "lightgoldenrodyellow" : "#fafad2", "lightgrey" : "#d3d3d3", "lightgreen" : "#90ee90", "lightpink" : "#ffb6c1", "lightsalmon" : "#ffa07a", "lightseagreen" : "#20b2aa", "lightskyblue" : "#87cefa", "lightslategray" : "#778899", "lightsteelblue" : "#b0c4de", "lightyellow" : "#ffffe0", "lime" : "#00ff00", "limegreen" : "#32cd32", "linen" : "#faf0e6", "magenta" : "#ff00ff", "maroon" : "#800000", "mediumaquamarine" : "#66cdaa", "mediumblue" : "#0000cd", "mediumorchid" : "#ba55d3", "mediumpurple" : "#9370d8", "mediumseagreen" : "#3cb371", "mediumslateblue" : "#7b68ee", "mediumspringgreen" : "#00fa9a", "mediumturquoise" : "#48d1cc", "mediumvioletred" : "#c71585", "midnightblue" : "#191970", "mintcream" : "#f5fffa", "mistyrose" : "#ffe4e1", "moccasin" : "#ffe4b5", "navajowhite" : "#ffdead", "navy" : "#000080", "oldlace" : "#fdf5e6", "olive" : "#808000", "olivedrab" : "#6b8e23", "orange" : "#ffa500", "orangered" : "#ff4500", "orchid" : "#da70d6", "palegoldenrod" : "#eee8aa", "palegreen" : "#98fb98", "paleturquoise" : "#afeeee", "palevioletred" : "#d87093", "papayawhip" : "#ffefd5", "peachpuff" : "#ffdab9", "peru" : "#cd853f", "pink" : "#ffc0cb", "plum" : "#dda0dd", "powderblue" : "#b0e0e6", "purple" : "#800080", "red" : "#ff0000", "rosybrown" : "#bc8f8f", "royalblue" : "#4169e1", "saddlebrown" : "#8b4513", "salmon" : "#fa8072", "sandybrown" : "#f4a460", "seagreen" : "#2e8b57", "seashell" : "#fff5ee", "sienna" : "#a0522d", "silver" : "#c0c0c0", "skyblue" : "#87ceeb", "slateblue" : "#6a5acd", "slategray" : "#708090", "snow" : "#fffafa", "springgreen" : "#00ff7f", "steelblue" : "#4682b4", "tan" : "#d2b48c", "teal" : "#008080", "thistle" : "#d8bfd8", "tomato" : "#ff6347", "turquoise" : "#40e0d0", "violet" : "#ee82ee", "wheat" : "#f5deb3", "white" : "#ffffff", "whitesmoke" : "#f5f5f5", "yellow" : "#ffff00", "yellowgreen" : "#9acd32", "transparent" : "rgba(0,0,0,0)"};
 nanofl_engine_Debug.console = new nanofl_engine_Console();
 nanofl_engine_Library.SCENE_NAME_PATH = "scene";

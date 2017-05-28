@@ -13,7 +13,10 @@ var base_Scene = function() {
 base_Scene.__name__ = true;
 base_Scene.__super__ = nanofl.MovieClip2D;
 base_Scene.prototype = $extend(nanofl.MovieClip2D.prototype,{
-	__class__: base_Scene
+	get_childByName: function() {
+		return this;
+	}
+	,__class__: base_Scene
 });
 var Scene = function() {
 	base_Scene.call(this);
@@ -22,13 +25,21 @@ Scene.__name__ = true;
 Scene.__super__ = base_Scene;
 Scene.prototype = $extend(base_Scene.prototype,{
 	init: function() {
-		var myEarth = this.getChildByName("myEarth");
-		this.sphere = myEarth.object.getChildByName("Sphere");
+		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+		this.sphere = this.getChildByName("myEarth").object.getChildByName("Sphere");
+		this.fpsDiv = window.document.body.appendChild(window.document.createElement("div"));
+		this.fpsDiv.style.position = "absolute";
+		this.fpsDiv.style.top = "0";
+		this.fpsDiv.style.left = "0";
+		this.fpsDiv.style.fontSize = "14px";
 	}
 	,onEnterFrame: function() {
 		this.sphere.rotateX(0.010);
 		this.sphere.rotateY(0.015);
 		this.sphere.rotateZ(0.020);
+		var tmp = js_Boot.__instanceof(this.getChildByName("myEarth").get_renderer(),THREE.WebGLRenderer) ? "WebGL" : "Canvas";
+		var tmp1 = Std.string(Math.round(createjs.Ticker.getMeasuredFPS()));
+		this.fpsDiv.innerHTML = tmp + ": " + tmp1;
 	}
 	,__class__: Scene
 });
@@ -36,6 +47,11 @@ var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
+};
+var base__$Scene_NamedChildren_$Impl_$ = {};
+base__$Scene_NamedChildren_$Impl_$.__name__ = true;
+base__$Scene_NamedChildren_$Impl_$.get_myEarth = function(this1) {
+	return this1.getChildByName("myEarth");
 };
 var haxe_io_FPHelper = function() { };
 haxe_io_FPHelper.__name__ = true;
@@ -483,6 +499,19 @@ js_three__$ArrayLike_ArrayLike_$Impl_$.get = function(this1,key) {
 js_three__$ArrayLike_ArrayLike_$Impl_$.arrayWrite = function(this1,k,v) {
 	this1[k] = v;
 	return v;
+};
+var library__$Earth_Earth_$Impl_$ = {};
+library__$Earth_Earth_$Impl_$.__name__ = true;
+library__$Earth_Earth_$Impl_$.get_Lamp = function(this1) {
+	return this1.getChildByName("Lamp");
+};
+library__$Earth_Earth_$Impl_$.get_Sphere = function(this1) {
+	return this1.getChildByName("Sphere");
+};
+var nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$ = {};
+nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$.__name__ = true;
+nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$.get_childByName = function(this1) {
+	return this1;
 };
 createjs.DisplayObject.prototype.setBounds = function(x, y, width, height) { this._bounds = x != null ? (this._bounds || new createjs.Rectangle()).setValues(x, y, width, height) : null; };
 String.prototype.__class__ = String;
