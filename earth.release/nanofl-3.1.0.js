@@ -7540,7 +7540,7 @@ var nanofl_TextField = $hx_exports["nanofl"]["TextField"] = function(width,heigh
 	this.set_border(border);
 	this.set_dashedBorder(dashedBorder);
 	this.textRuns = textRuns != null ? textRuns : [];
-	this.set_newTextFormat(newTextFormat);
+	this._newTextFormat = newTextFormat;
 	this.resize = new stdlib_Event(this);
 	this.change = new stdlib_Event(this);
 	var _g = 0;
@@ -7712,10 +7712,15 @@ nanofl_TextField.prototype = $extend(nanofl_SolidContainer.prototype,{
 	,textLines: null
 	,_newTextFormat: null
 	,get_newTextFormat: function() {
-		return this._newTextFormat;
+		if(this._newTextFormat != null) {
+			return this._newTextFormat;
+		} else {
+			return this._newTextFormat = new nanofl_TextRun();
+		}
 	}
 	,set_newTextFormat: function(format) {
-		return this._newTextFormat = format != null ? format : new nanofl_TextRun();
+		stdlib_Debug.assert(format != null,"TextField.newTextFormat must not be null." + haxe_CallStack.toString(haxe_CallStack.callStack()),{ fileName : "TextField.hx", lineNumber : 102, className : "nanofl.TextField", methodName : "set_newTextFormat"});
+		return this._newTextFormat = format;
 	}
 	,globalBackground: null
 	,background: null
@@ -7731,9 +7736,6 @@ nanofl_TextField.prototype = $extend(nanofl_SolidContainer.prototype,{
 		}).join("");
 	}
 	,set_text: function(v) {
-		if(this.textRuns.length > 0) {
-			this.set_newTextFormat(this.textRuns[0]);
-		}
 		this.textRuns.splice(0,this.textRuns.length);
 		this.textRuns.push(this.get_newTextFormat().duplicate(v));
 		return v;
@@ -7861,7 +7863,7 @@ nanofl_TextField.prototype = $extend(nanofl_SolidContainer.prototype,{
 				var bounds = text.getBounds();
 				var fontHeight = nanofl_TextField.measureFontHeight(run2.family,run2.style,run2.size);
 				var fontBaselineCoef = nanofl_TextField.measureFontBaselineCoef(run2.family,run2.style);
-				stdlib_Debug.assert(run2.letterSpacing != null,null,{ fileName : "TextField.hx", lineNumber : 288, className : "nanofl.TextField", methodName : "getTextLines"});
+				stdlib_Debug.assert(run2.letterSpacing != null,null,{ fileName : "TextField.hx", lineNumber : 291, className : "nanofl.TextField", methodName : "getTextLines"});
 				text.setBounds(bounds.x,-fontHeight * fontBaselineCoef,bounds.width + (!run2.kerning ? run2.letterSpacing : 0),fontHeight);
 				bounds = text.getBounds();
 				if(i == lines.length - 1 || j < runsLine[0].length - 1) {
@@ -7869,7 +7871,7 @@ nanofl_TextField.prototype = $extend(nanofl_SolidContainer.prototype,{
 				}
 				lineMinY = Math.min(lineMinY,bounds.y);
 				lineMaxY = Math.max(lineMaxY,bounds.y + bounds.height);
-				stdlib_Debug.assert(run2.lineSpacing != null,null,{ fileName : "TextField.hx", lineNumber : 306, className : "nanofl.TextField", methodName : "getTextLines"});
+				stdlib_Debug.assert(run2.lineSpacing != null,null,{ fileName : "TextField.hx", lineNumber : 309, className : "nanofl.TextField", methodName : "getTextLines"});
 				if(lineSpacing != null) {
 					lineSpacing = Math.max(lineSpacing,run2.lineSpacing);
 				} else {
@@ -12724,7 +12726,7 @@ var nanofl_engine_elements2D_TextElement = function(name,width,height,selectable
 	this.selectable = selectable;
 	this.border = border;
 	this.textRuns = textRuns;
-	this.newTextFormat = newTextFormat;
+	this.newTextFormat = newTextFormat != null ? newTextFormat : new nanofl_TextRun();
 };
 $hxClasses["nanofl.engine.elements2D.TextElement"] = nanofl_engine_elements2D_TextElement;
 nanofl_engine_elements2D_TextElement.__name__ = ["nanofl","engine","elements2D","TextElement"];
@@ -12752,8 +12754,18 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 		while(_g < _g1.length) {
 			var node = _g1[_g];
 			++_g;
-			if(node.name == "text-run") {
-				this.textRuns.push(nanofl_TextRun.create(htmlparser_HtmlParserTools.getAttr(node,"characters"),htmlparser_HtmlParserTools.getAttr(node,"fillColor","#000000"),htmlparser_HtmlParserTools.getAttr(node,"family","Times"),htmlparser_HtmlParserTools.getAttr(node,"style",""),htmlparser_HtmlParserTools.getAttr(node,"size",12.0),htmlparser_HtmlParserTools.getAttr(node,"align","left"),htmlparser_HtmlParserTools.getAttr(node,"strokeSize",0.0),htmlparser_HtmlParserTools.getAttr(node,"strokeColor","#000000"),htmlparser_HtmlParserTools.getAttr(node,"kerning",true),htmlparser_HtmlParserTools.getAttr(node,"letterSpacing",0.0),htmlparser_HtmlParserTools.getAttr(node,"lineSpacing",2.0)));
+			var _g2 = node.name;
+			switch(_g2) {
+			case "new-text-format":
+				this.newTextFormat = this.loadTextRun(node);
+				break;
+			case "text-run":
+				var textRun = this.loadTextRun(node);
+				if(!stdlib_StringTools.isNullOrEmpty(textRun.characters)) {
+					this.textRuns.push(textRun);
+				}
+				break;
+			default:
 			}
 		}
 		return true;
@@ -12766,26 +12778,33 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 		out.attr("height",this.height);
 		out.attr("selectable",this.selectable,false);
 		out.attr("border",this.border,false);
+		this.saveTextRun(this.newTextFormat,"new-text-format",out);
 		var _g = 0;
 		var _g1 = this.textRuns;
 		while(_g < _g1.length) {
 			var textRun = _g1[_g];
 			++_g;
-			out.begin("text-run");
-			out.attr("characters",textRun.characters);
-			out.attr("fillColor",textRun.fillColor);
-			out.attr("align",textRun.align,"left");
-			out.attr("size",textRun.size);
-			out.attr("style",textRun.style,"");
-			out.attr("family",textRun.family,"Times");
-			out.attr("strokeSize",textRun.strokeSize,0.0);
-			out.attr("strokeColor",textRun.strokeColor,"#000000");
-			out.attr("kerning",textRun.kerning,true);
-			out.attr("letterSpacing",textRun.letterSpacing,0.0);
-			out.attr("lineSpacing",textRun.lineSpacing,2.0);
-			out.end();
+			this.saveTextRun(textRun,"text-run",out);
 		}
 		out.end();
+	}
+	,saveTextRun: function(textRun,tag,out) {
+		out.begin(tag);
+		out.attr("characters",textRun.characters);
+		out.attr("fillColor",textRun.fillColor);
+		out.attr("align",textRun.align,"left");
+		out.attr("size",textRun.size);
+		out.attr("style",textRun.style,"");
+		out.attr("family",textRun.family,"Times");
+		out.attr("strokeSize",textRun.strokeSize,0.0);
+		out.attr("strokeColor",textRun.strokeColor,"#000000");
+		out.attr("kerning",textRun.kerning,true);
+		out.attr("letterSpacing",textRun.letterSpacing,0.0);
+		out.attr("lineSpacing",textRun.lineSpacing,2.0);
+		out.end();
+	}
+	,loadTextRun: function(node) {
+		return nanofl_TextRun.create(htmlparser_HtmlParserTools.getAttr(node,"characters"),htmlparser_HtmlParserTools.getAttr(node,"fillColor","#000000"),htmlparser_HtmlParserTools.getAttr(node,"family","Times"),htmlparser_HtmlParserTools.getAttr(node,"style",""),htmlparser_HtmlParserTools.getAttr(node,"size",12.0),htmlparser_HtmlParserTools.getAttr(node,"align","left"),htmlparser_HtmlParserTools.getAttr(node,"strokeSize",0.0),htmlparser_HtmlParserTools.getAttr(node,"strokeColor","#000000"),htmlparser_HtmlParserTools.getAttr(node,"kerning",true),htmlparser_HtmlParserTools.getAttr(node,"letterSpacing",0.0),htmlparser_HtmlParserTools.getAttr(node,"lineSpacing",2.0));
 	}
 	,getText: function() {
 		return this.textRuns.map(function(tr) {
@@ -12801,7 +12820,7 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 		return dispObj;
 	}
 	,updateDisplayObject: function(dispObj,frameIndexes) {
-		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_TextField),null,{ fileName : "TextElement.hx", lineNumber : 124, className : "nanofl.engine.elements2D.TextElement", methodName : "updateDisplayObject"});
+		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_TextField),null,{ fileName : "TextElement.hx", lineNumber : 141, className : "nanofl.engine.elements2D.TextElement", methodName : "updateDisplayObject"});
 		this.updateDisplayObjectProperties(dispObj);
 		var tf = dispObj;
 		tf.set_width(this.width);
@@ -12814,7 +12833,7 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 		return tf;
 	}
 	,getMinSize: function(dispObj) {
-		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_TextField),null,{ fileName : "TextElement.hx", lineNumber : 148, className : "nanofl.engine.elements2D.TextElement", methodName : "getMinSize"});
+		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,nanofl_TextField),null,{ fileName : "TextElement.hx", lineNumber : 165, className : "nanofl.engine.elements2D.TextElement", methodName : "getMinSize"});
 		return { width : dispObj.get_minWidth(), height : dispObj.get_minHeight()};
 	}
 	,getNearestPointsLocal: function(pos) {
@@ -12843,10 +12862,13 @@ nanofl_engine_elements2D_TextElement.prototype = $extend(nanofl_engine_elements2
 		if(!datatools_ArrayTools.equ(element.textRuns,this.textRuns)) {
 			return false;
 		}
+		if(!element.newTextFormat.equ(this.newTextFormat)) {
+			return false;
+		}
 		return true;
 	}
 	,clone: function() {
-		var obj = new nanofl_engine_elements2D_TextElement(this.name,this.width,this.height,this.selectable,this.border,datatools_ArrayTools.clone(this.textRuns),this.newTextFormat != null ? this.newTextFormat.clone() : null);
+		var obj = new nanofl_engine_elements2D_TextElement(this.name,this.width,this.height,this.selectable,this.border,datatools_ArrayTools.clone(this.textRuns),this.newTextFormat.clone());
 		this.copyBaseProperties(obj);
 		return obj;
 	}
