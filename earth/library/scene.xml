@@ -1,5 +1,17 @@
 <movieclip version="2.2.0" linkedClass="Scene">
-	<layer name="bottle">
+	<layer name="2D">
+		<frame>
+			<text x="2" y="2" matrix="1.00352300629871,0,0,1" width="95" height="18">
+				<text-run characters="ThreeJS Renderer:" fillColor="#000000" size="11" family="Arial" />
+			</text>
+			<text name="txtRenderer" x="100" y="2" matrix="1.1287988422576,0,0,1" width="128.493168553169" height="19" />
+			<text x="450" y="2" matrix="1.02439022007476,0,0,1" width="26" height="18">
+				<text-run characters="FPS:" fillColor="#000000" size="11" family="Arial" />
+			</text>
+			<text name="txtFPS" x="480" y="2" matrix="1.00404040404041,0,0,1" width="37.8470824949698" height="19" />
+		</frame>
+	</layer>
+	<layer name="3D">
 		<frame>
 			<threeView libraryItem="earth" name="myEarth" width="520" height="390" />
 		</frame>

@@ -18793,7 +18793,6 @@ nanofl_engine_libraryitems_MeshItem3D.parse = function(namePath,itemNode) {
 	return item;
 };
 nanofl_engine_libraryitems_MeshItem3D.log = function(v,infos) {
-	haxe_Log.trace(Reflect.isFunction(v) ? v() : v,infos);
 };
 nanofl_engine_libraryitems_MeshItem3D.__super__ = nanofl_engine_libraryitems_InstancableItem3D;
 nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryitems_InstancableItem3D.prototype,{

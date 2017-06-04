@@ -26,20 +26,16 @@ Scene.__super__ = base_Scene;
 Scene.prototype = $extend(base_Scene.prototype,{
 	init: function() {
 		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
-		this.sphere = this.getChildByName("myEarth").object.getChildByName("Sphere");
-		this.fpsDiv = window.document.body.appendChild(window.document.createElement("div"));
-		this.fpsDiv.style.position = "absolute";
-		this.fpsDiv.style.top = "0";
-		this.fpsDiv.style.left = "0";
-		this.fpsDiv.style.fontSize = "14px";
+		this.getChildByName("txtRenderer").set_text(js_Boot.__instanceof(this.getChildByName("myEarth").get_renderer(),THREE.WebGLRenderer) ? "WebGL" : "Canvas");
+		this.getChildByName("txtRenderer").textRuns[0].family = "Times";
+		console.log(this.getChildByName("txtRenderer"));
 	}
 	,onEnterFrame: function() {
-		this.sphere.rotateX(0.010);
-		this.sphere.rotateY(0.015);
-		this.sphere.rotateZ(0.020);
-		var tmp = js_Boot.__instanceof(this.getChildByName("myEarth").get_renderer(),THREE.WebGLRenderer) ? "WebGL" : "Canvas";
-		var tmp1 = Std.string(Math.round(createjs.Ticker.getMeasuredFPS()));
-		this.fpsDiv.innerHTML = tmp + ": " + tmp1;
+		var sphere = this.getChildByName("myEarth").object.getObjectByName("Sphere");
+		sphere.rotateX(0.010);
+		sphere.rotateY(0.015);
+		sphere.rotateZ(0.020);
+		this.getChildByName("txtFPS").set_text(Std.string(Math.round(createjs.Ticker.getMeasuredFPS())));
 	}
 	,__class__: Scene
 });
@@ -50,8 +46,14 @@ Std.string = function(s) {
 };
 var base__$Scene_NamedChildren_$Impl_$ = {};
 base__$Scene_NamedChildren_$Impl_$.__name__ = true;
+base__$Scene_NamedChildren_$Impl_$.get_txtRenderer = function(this1) {
+	return this1.getChildByName("txtRenderer");
+};
 base__$Scene_NamedChildren_$Impl_$.get_myEarth = function(this1) {
 	return this1.getChildByName("myEarth");
+};
+base__$Scene_NamedChildren_$Impl_$.get_txtFPS = function(this1) {
+	return this1.getChildByName("txtFPS");
 };
 var haxe_io_FPHelper = function() { };
 haxe_io_FPHelper.__name__ = true;
@@ -503,10 +505,10 @@ js_three__$ArrayLike_ArrayLike_$Impl_$.arrayWrite = function(this1,k,v) {
 var library__$Earth_Earth_$Impl_$ = {};
 library__$Earth_Earth_$Impl_$.__name__ = true;
 library__$Earth_Earth_$Impl_$.get_Lamp = function(this1) {
-	return this1.getChildByName("Lamp");
+	return this1.getObjectByName("Lamp");
 };
 library__$Earth_Earth_$Impl_$.get_Sphere = function(this1) {
-	return this1.getChildByName("Sphere");
+	return this1.getObjectByName("Sphere");
 };
 var nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$ = {};
 nanofl__$ObjectWithNamedChildren_ObjectWithNamedChildren_$Impl_$.__name__ = true;
