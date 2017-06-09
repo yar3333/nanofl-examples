@@ -1,4 +1,4 @@
-<movieclip version="2.2.0" linkedClass="Scene">
+<movieclip version="2.3.0" linkedClass="Scene">
 	<layer name="2D">
 		<frame>
 			<text x="2" y="2" matrix="1.00352300629871,0,0,1" width="95" height="18">

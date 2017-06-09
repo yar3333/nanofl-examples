@@ -4,12 +4,10 @@ class Scene extends base.Scene
 {
 	function init()
 	{
-		//nanofl.Player.stage.canvas.style.display = "none";
 		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 		
 		childByName.txtRenderer.text = Std.is(childByName.myEarth.renderer, js.three.WebGLRenderer) ? "WebGL" : "Canvas";
 		childByName.txtRenderer.textRuns[0].family = "Times";
-		trace(childByName.txtRenderer);
 	}
 	
 	override function onEnterFrame()

@@ -1,4 +1,4 @@
-<nanofl version="2.2.0">
+<nanofl version="2.3.0">
 	<general>
 		<param name="title" value="" />
 		<param name="width" value="520" />
@@ -18,6 +18,6 @@
 		<param name="audioQuality" value="128" />
 		<param name="urlOnClick" value="" />
 		<param name="useLocalScripts" value="true" />
-		<param name="shareForDevices" value="true" />
+		<param name="shareForDevices" value="false" />
 	</publishSettings>
 </nanofl>
