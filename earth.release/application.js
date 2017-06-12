@@ -8,11 +8,11 @@ function $extend(from, fields) {
 }
 Math.__name__ = true;
 var base_Scene = function() {
-	nanofl.MovieClip2D.call(this,nanofl.Player.library.getItem("scene"));
+	nanofl.MovieClip.call(this,nanofl.Player.library.getItem("scene"));
 };
 base_Scene.__name__ = true;
-base_Scene.__super__ = nanofl.MovieClip2D;
-base_Scene.prototype = $extend(nanofl.MovieClip2D.prototype,{
+base_Scene.__super__ = nanofl.MovieClip;
+base_Scene.prototype = $extend(nanofl.MovieClip.prototype,{
 	get_childByName: function() {
 		return this;
 	}
@@ -28,7 +28,6 @@ Scene.prototype = $extend(base_Scene.prototype,{
 		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 		this.getChildByName("txtRenderer").set_text(js_Boot.__instanceof(this.getChildByName("myEarth").get_renderer(),THREE.WebGLRenderer) ? "WebGL" : "Canvas");
 		this.getChildByName("txtRenderer").textRuns[0].family = "Times";
-		console.log(this.getChildByName("txtRenderer"));
 	}
 	,onEnterFrame: function() {
 		var sphere = this.getChildByName("myEarth").object.getObjectByName("Sphere");
@@ -49,11 +48,11 @@ base__$Scene_NamedChildren_$Impl_$.__name__ = true;
 base__$Scene_NamedChildren_$Impl_$.get_txtRenderer = function(this1) {
 	return this1.getChildByName("txtRenderer");
 };
-base__$Scene_NamedChildren_$Impl_$.get_myEarth = function(this1) {
-	return this1.getChildByName("myEarth");
-};
 base__$Scene_NamedChildren_$Impl_$.get_txtFPS = function(this1) {
 	return this1.getChildByName("txtFPS");
+};
+base__$Scene_NamedChildren_$Impl_$.get_myEarth = function(this1) {
+	return this1.getChildByName("myEarth");
 };
 var haxe_io_FPHelper = function() { };
 haxe_io_FPHelper.__name__ = true;
