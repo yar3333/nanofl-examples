@@ -1,105 +1,4 @@
-(function (console, $hx_exports) { "use strict";
-$hx_exports.createjs = $hx_exports.createjs || {};
-function $extend(from, fields) {
-	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
-	for (var name in fields) proto[name] = fields[name];
-	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
-	return proto;
-}
-var AdjustColorFilterPlugin = function() {
-	this.properties = [{ type : "int", name : "brightness", label : "Brightness", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "contrast", label : "Contrast", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "saturation", label : "Saturation", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "hue", label : "Hue", defaultValue : 0, minValue : -180, maxValue : 180, units : "deg"}];
-	this.label = "Adjust Color";
-	this.name = "AdjustColorFilter";
-};
-AdjustColorFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
-AdjustColorFilterPlugin.prototype = {
-	getFilter: function(params) {
-		return new createjs.ColorMatrixFilter(new createjs.ColorMatrix(Math.round(params.brightness / 100 * 255 * 0.4),params.contrast,params.saturation,params.hue).toArray());
-	}
-};
-var BoxBlurFilterPlugin = function() {
-	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3}];
-	this.label = "Box Blur";
-	this.name = "BoxBlurFilter";
-};
-BoxBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
-BoxBlurFilterPlugin.prototype = {
-	getFilter: function(params) {
-		return new createjs.BoxBlurFilter(params.blurX,params.blurY,params.quality);
-	}
-};
-var DropShadowFilterPlugin = function() {
-	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 5, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 5, units : "px", minValue : 0},{ type : "int", name : "strength", label : "Strength", defaultValue : 100, units : "%", minValue : 0, maxValue : 100},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3},{ type : "float", name : "angle", label : "Angle", defaultValue : 45, units : "deg", minValue : 0, maxValue : 360},{ type : "float", name : "distance", label : "Distance", defaultValue : 5, units : "px", minValue : 0},{ type : "bool", name : "knockout", label : "Knockout", defaultValue : false},{ type : "bool", name : "inner", label : "Inner shadow", defaultValue : false},{ type : "bool", name : "hideObject", label : "Hide object", defaultValue : false},{ type : "color", name : "color", label : "Color", defaultValue : "#000000"},{ type : "int", name : "alpha", label : "Alpha", defaultValue : 100, neutralValue : 0, units : "%", minValue : 0, maxValue : 100}];
-	this.label = "Drop Shadow";
-	this.name = "DropShadowFilter";
-};
-DropShadowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
-DropShadowFilterPlugin.prototype = {
-	getFilter: function(params) {
-		var rgb = nanofl.engine.ColorTools.parse(params.color);
-		var color = rgb.r << 16 | rgb.g << 8 | rgb.b;
-		return new createjs.DropShadowFilter(params.distance * 2,params.angle,color,params.alpha / 100 * (params.strength / 100),params.blurX * 2,params.blurY * 2,1,params.quality,params.inner,params.knockout,params.hideObject);
-	}
-};
-var GaussianBlurFilterPlugin = function() {
-	this.properties = [{ type : "int", name : "radius", label : "Radius", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0}];
-	this.label = "Gaussian Blur";
-	this.name = "GaussianBlurFilterPlugin";
-};
-GaussianBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
-GaussianBlurFilterPlugin.prototype = {
-	getFilter: function(params) {
-		return new createjs_GaussianBlurFilter(params.radius);
-	}
-};
-var GlowFilterPlugin = function() {
-	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 5, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 5, units : "px", minValue : 0},{ type : "int", name : "strength", label : "Strength", defaultValue : 100, units : "%", minValue : 0, maxValue : 100},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3},{ type : "color", name : "color", label : "Color", defaultValue : "#000000"},{ type : "int", name : "alpha", label : "Alpha", defaultValue : 100, neutralValue : 0, units : "%", minValue : 0, maxValue : 100},{ type : "bool", name : "knockout", label : "Knockout", defaultValue : false},{ type : "bool", name : "inner", label : "Inner shadow", defaultValue : false}];
-	this.label = "Glow";
-	this.name = "GlowFilter";
-};
-GlowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
-GlowFilterPlugin.prototype = {
-	getFilter: function(params) {
-		var rgb = nanofl.engine.ColorTools.parse(params.color);
-		var color = rgb.r << 16 | rgb.g << 8 | rgb.b;
-		return new createjs.GlowFilter(color,params.alpha / 100 * (params.strength / 100),params.blurX * 2,params.blurY * 2,1,params.quality,params.inner,params.knockout);
-	}
-};
-var StdFiltersPlugin = function() { };
-StdFiltersPlugin.main = function() {
-	nanofl.engine.plugins.FilterPlugins.register(new DropShadowFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new BoxBlurFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new GlowFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new AdjustColorFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new GaussianBlurFilterPlugin());
-};
-var createjs_GaussianBlurFilter = $hx_exports.createjs.GaussianBlurFilter = function(radius) {
-	createjs.Filter.call(this);
-	this.radius = radius;
-};
-createjs_GaussianBlurFilter.__super__ = createjs.Filter;
-createjs_GaussianBlurFilter.prototype = $extend(createjs.Filter.prototype,{
-	applyFilter: function(ctx,x,y,width,height,targetCtx,targetX,targetY) {
-		StackBlur.stackBlurCanvasRGBA(ctx.canvas,x,y,width,height,this.radius);
-		return true;
-	}
-	,getBounds: function(rect) {
-		if(rect != null) {
-			rect.x -= this.radius;
-			rect.y -= this.radius;
-			rect.width += this.radius * 2;
-			rect.height += this.radius * 2;
-			return rect;
-		}
-		return new createjs.Rectangle(-this.radius,-this.radius,this.radius * 2,this.radius * 2);
-	}
-	,clone: function() {
-		return new createjs_GaussianBlurFilter(this.radius);
-	}
-	,toString: function() {
-		return "[GaussianBlurFilter]";
-	}
-});
+// Generated by Haxe 3.4.2 (git build master @ 890f8c7)
 /*
 
 StackBlur - a fast almost Gaussian Blur For Canvas
@@ -490,7 +389,288 @@ window.StackBlur = {
 	stackBlurCanvasRGBA: stackBlurCanvasRGBA
 };
 
-})(window);;
+})(window);
+/*
+GlowFilter for EaselJS
+GitHub : https://github.com/u-kudox/Filters_for_EaselJS
+Contact and Bug reports : http://kudox.jp/contact or http://twitter.com/u_kudox
+License : public domain
+*/
+
+/**
+* @namespace createjs
+**/
+createjs = createjs || {};
+
+(function(window) {
+	"use strict";
+
+	/**
+	* Applies a GlowFilter to DisplayObjects of EaselJS. This filter has inherited the Filter class of EaselJS and has used BlurFilter of EaselJS at the blurring process.
+	* @class GlowFilter
+	* @extends Filter
+	* @constructor
+	* @param [color=0xFF0000] {uint} The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
+	* @param [alpha=1] {Number} The alpha transparency value for the glow color. Valid values are 0 to 1.
+	* @param [blurX=0] {Number} The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+	* @param [blurY=0] {Number} The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+	* @param [strength=1] {uint} The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
+	* @param [quality=1] {Number} The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
+	* @param [inner=false] {Boolean} Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
+	* @param [knockout=false] {Boolean} Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
+	* @example
+	* <pre><code>_shape = new createjs.Shape().set({x:centerX, y:centerY});
+_shape.graphics.f("rgba(0,0,255,1)").dp(0, 0, 100, 5, 0.6, -90).ef();
+var color = 0x00FFFF;
+var alpha = 1;
+var blurX = 32;
+var blurY = 32;
+var strength = 1;
+var quality = 1;
+var inner = false;
+var knockout = false;
+_glowFilter = new createjs.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
+_shape.filters = [_glowFilter];
+_shape.cache(-100, -100, 200, 200);
+_stage.addChild(_shape);</code></pre>
+	**/
+	function GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout) {
+		if (!isNaN(color)) this.color = color;
+		if (alpha !== undefined) this.alpha = alpha;
+		this._blurFilter = new createjs.BlurFilter(blurX, blurY, quality);
+		if (strength !== undefined) this.strength = strength;
+		this.inner = !!inner;
+		this.knockout = !!knockout;
+	}
+
+	var p = GlowFilter.prototype = Object.create(createjs.Filter.prototype);
+	p.constructor = GlowFilter;
+
+	/**
+	* The alpha transparency value for the glow color. Valid values are 0 to 1.
+	* @property alpha
+	* @type Number
+	* @default 1
+	**/
+	p.alpha = 1;
+
+	/**
+	* The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
+	* @property strength
+	* @type uint
+	* @default 1
+	**/
+	p.strength = 1;
+
+	/**
+	* Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
+	* @property inner
+	* @type Boolean
+	* @default false
+	**/
+	p.inner = false;
+
+	/**
+	* Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
+	* @property knockout
+	* @type Boolean
+	* @default false
+	**/
+	p.knockout = false;
+
+	Object.defineProperties(p, {
+		/**
+		* The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
+		* @property color
+		* @type uint
+		* @default 0xFF0000
+		**/
+		"color" : {
+			get : function() {
+				return this._red << 16 | this._green << 8 | this._blue;
+			},
+			set : function(value) {
+				this._red = value >> 16 & 0xFF;
+				this._green = value >> 8 & 0xFF;
+				this._blue = value & 0xFF;
+				return this.color;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+		* @property blurX
+		* @type Number
+		* @default 0
+		**/
+		"blurX" : {
+			get : function() {
+				return this._blurFilter.blurX;
+			},
+			set : function(value) {
+				return this._blurFilter.blurX = value;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+		* @property blurY
+		* @type Number
+		* @default 0
+		**/
+		"blurY" : {
+			get : function() {
+				return this._blurFilter.blurY;
+			},
+			set : function(value) {
+				return this._blurFilter.blurY = value;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
+		* @property quality
+		* @type Number
+		* @default 1
+		**/
+		"quality" : {
+			get : function() {
+				return this._blurFilter.quality;
+			},
+			set : function(value) {
+				return this._blurFilter.quality = value;
+			},
+			enumerable : true
+		}
+	});
+
+	p._red = 255;
+
+	p._green = 0;
+
+	p._blue = 0;
+
+	p._blurFilter = null;
+
+	/**
+	* Returns a rectangle with values indicating the margins required to draw the filter or null.
+	* For example, a filter that will extend the drawing area 4 pixels to the left, and 7 pixels to the right
+	* (but no pixels up or down) would return a rectangle with (x=-4, y=0, width=11, height=0).
+	* @method getBounds
+	* @return {Rectangle} a rectangle object indicating the margins required to draw the filter or null if the filter does not effect bounds.
+	**/
+	p.getBounds = function(rect) {
+		if (this.inner) {
+			return rect;
+		} else {
+			return this._blurFilter.getBounds(rect);
+		}
+	};
+
+	/**
+	* Applies the GlowFilter to the specified context.
+	* @method applyFilter
+	* @param ctx {CanvasRenderingContext2D} The 2D context to use as the source.
+	* @param x {Number} The x position to use for the source rect.
+	* @param y {Number} The y position to use for the source rect.
+	* @param width {Number} The width to use for the source rect.
+	* @param height {Number} The height to use for the source rect.
+	* @param [targetCtx] {CanvasRenderingContext2D} The 2D context to draw the result to. Defaults to the context passed to ctx.
+	* @param [targetX] {Number} The x position to draw the result to. Defaults to the value passed to x.
+	* @param [targetY] {Number} The y position to draw the result to. Defaults to the value passed to y.
+	* @return {Boolean} If the filter was applied successfully.
+	**/
+	p.applyFilter = function(ctx, x, y, width, height, targetCtx, targetX, targetY) {
+		if ((this.alpha <= 0 || this.strength <= 0) && !this.knockout) {
+			return true;
+		}
+		targetCtx = targetCtx || ctx;
+		if (targetX === undefined) targetX = x;
+		if (targetY === undefined) targetY = y;
+		var tImgData = targetCtx.getImageData(targetX, targetY, width, height);
+		var tData = tImgData.data;
+		var dCvs = document.createElement("canvas");
+		dCvs.width = width;
+		dCvs.height = height;
+		var dCtx = dCvs.getContext("2d");
+		var dImgData = dCtx.getImageData(0, 0, width, height);
+		var dData = dImgData.data;
+		var inner = this.inner;
+		var red = this._red;
+		var green = this._green;
+		var blue = this._blue;
+		for (var i = 0, l = dData.length; i < l; i += 4) {
+			var ia = i + 3;
+			var alpha = tData[ia];
+			if (!inner) {
+				if (alpha !== 0) {
+					dData[i] = red;
+					dData[i + 1] = green;
+					dData[i + 2] = blue;
+					dData[ia] = alpha;
+				}
+			} else {
+				if (alpha !== 255) {
+					dData[i] = red;
+					dData[i + 1] = green;
+					dData[i + 2] = blue;
+					dData[ia] = 255 - alpha;
+				}
+			}
+		}
+		dCtx.putImageData(dImgData, 0, 0);
+		var strength = this.strength;
+		if (0 < strength) {
+			this._blurFilter.applyFilter(dCtx, 0, 0, width, height);
+			if (255 < strength) strength = 255;
+			for (var j = 1; j < strength; j++) {
+				dCtx.drawImage(dCvs, 0, 0);
+			}
+		}
+		var ga = this.alpha;
+		if (ga < 0) ga = 0;
+		else if (1 < ga) ga = 1;
+		var gco;
+		if (this.knockout) {
+			if (inner) gco = "source-in";
+			else gco = "source-out";
+		} else {
+			if (inner) gco = "source-atop";
+			else gco = "destination-over";
+		}
+		targetCtx.save();
+		targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+		targetCtx.globalAlpha = ga;
+		targetCtx.globalCompositeOperation = gco;
+		targetCtx.drawImage(dCvs, targetX, targetY);
+		targetCtx.restore();
+		return true;
+	};
+
+	/**
+	* Returns a clone of this GlowFilter instance.
+	* @method clone
+	* @return {GlowFilter} A clone of this GlowFilter instance.
+	**/
+	p.clone = function() {
+		var f = this._blurFilter;
+		return new createjs.GlowFilter(this.color, this.alpha, f.blurX, f.blurY, this.strength, f.quality, this.inner, this.knockout);
+	};
+
+	/**
+	* Returns a string representation of this filter.
+	* @method toString
+	* @return {String} A string representation of this filter.
+	**/
+	p.toString = function() {
+		return "[GlowFilter]";
+	};
+
+	createjs.GlowFilter = GlowFilter;
+}(window));
 /*
  * BoxBlurFilter
  * Visit http://createjs.com/ for documentation, updates and examples.
@@ -869,7 +1049,7 @@ createjs = createjs || {};
 	
 	createjs.BoxBlurFilter = createjs.promote(BoxBlurFilter, "Filter");
 }());
-;
+
 /*
 DropShadowFilter for EaselJS
 GitHub : https://github.com/u-kudox/Filters_for_EaselJS
@@ -1238,294 +1418,9 @@ _stage.addChild(_text);</code></pre>
 	}
 
 	createjs.DropShadowFilter = DropShadowFilter;
-}(window));;
-/*
-GlowFilter for EaselJS
-GitHub : https://github.com/u-kudox/Filters_for_EaselJS
-Contact and Bug reports : http://kudox.jp/contact or http://twitter.com/u_kudox
-License : public domain
-*/
-
-/**
-* @namespace createjs
-**/
-createjs = createjs || {};
-
-(function(window) {
-	"use strict";
-
-	/**
-	* Applies a GlowFilter to DisplayObjects of EaselJS. This filter has inherited the Filter class of EaselJS and has used BlurFilter of EaselJS at the blurring process.
-	* @class GlowFilter
-	* @extends Filter
-	* @constructor
-	* @param [color=0xFF0000] {uint} The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
-	* @param [alpha=1] {Number} The alpha transparency value for the glow color. Valid values are 0 to 1.
-	* @param [blurX=0] {Number} The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-	* @param [blurY=0] {Number} The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-	* @param [strength=1] {uint} The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
-	* @param [quality=1] {Number} The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
-	* @param [inner=false] {Boolean} Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
-	* @param [knockout=false] {Boolean} Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
-	* @example
-	* <pre><code>_shape = new createjs.Shape().set({x:centerX, y:centerY});
-_shape.graphics.f("rgba(0,0,255,1)").dp(0, 0, 100, 5, 0.6, -90).ef();
-var color = 0x00FFFF;
-var alpha = 1;
-var blurX = 32;
-var blurY = 32;
-var strength = 1;
-var quality = 1;
-var inner = false;
-var knockout = false;
-_glowFilter = new createjs.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
-_shape.filters = [_glowFilter];
-_shape.cache(-100, -100, 200, 200);
-_stage.addChild(_shape);</code></pre>
-	**/
-	function GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout) {
-		if (!isNaN(color)) this.color = color;
-		if (alpha !== undefined) this.alpha = alpha;
-		this._blurFilter = new createjs.BlurFilter(blurX, blurY, quality);
-		if (strength !== undefined) this.strength = strength;
-		this.inner = !!inner;
-		this.knockout = !!knockout;
-	}
-
-	var p = GlowFilter.prototype = Object.create(createjs.Filter.prototype);
-	p.constructor = GlowFilter;
-
-	/**
-	* The alpha transparency value for the glow color. Valid values are 0 to 1.
-	* @property alpha
-	* @type Number
-	* @default 1
-	**/
-	p.alpha = 1;
-
-	/**
-	* The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
-	* @property strength
-	* @type uint
-	* @default 1
-	**/
-	p.strength = 1;
-
-	/**
-	* Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
-	* @property inner
-	* @type Boolean
-	* @default false
-	**/
-	p.inner = false;
-
-	/**
-	* Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
-	* @property knockout
-	* @type Boolean
-	* @default false
-	**/
-	p.knockout = false;
-
-	Object.defineProperties(p, {
-		/**
-		* The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
-		* @property color
-		* @type uint
-		* @default 0xFF0000
-		**/
-		"color" : {
-			get : function() {
-				return this._red << 16 | this._green << 8 | this._blue;
-			},
-			set : function(value) {
-				this._red = value >> 16 & 0xFF;
-				this._green = value >> 8 & 0xFF;
-				this._blue = value & 0xFF;
-				return this.color;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-		* @property blurX
-		* @type Number
-		* @default 0
-		**/
-		"blurX" : {
-			get : function() {
-				return this._blurFilter.blurX;
-			},
-			set : function(value) {
-				return this._blurFilter.blurX = value;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-		* @property blurY
-		* @type Number
-		* @default 0
-		**/
-		"blurY" : {
-			get : function() {
-				return this._blurFilter.blurY;
-			},
-			set : function(value) {
-				return this._blurFilter.blurY = value;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
-		* @property quality
-		* @type Number
-		* @default 1
-		**/
-		"quality" : {
-			get : function() {
-				return this._blurFilter.quality;
-			},
-			set : function(value) {
-				return this._blurFilter.quality = value;
-			},
-			enumerable : true
-		}
-	});
-
-	p._red = 255;
-
-	p._green = 0;
-
-	p._blue = 0;
-
-	p._blurFilter = null;
-
-	/**
-	* Returns a rectangle with values indicating the margins required to draw the filter or null.
-	* For example, a filter that will extend the drawing area 4 pixels to the left, and 7 pixels to the right
-	* (but no pixels up or down) would return a rectangle with (x=-4, y=0, width=11, height=0).
-	* @method getBounds
-	* @return {Rectangle} a rectangle object indicating the margins required to draw the filter or null if the filter does not effect bounds.
-	**/
-	p.getBounds = function(rect) {
-		if (this.inner) {
-			return rect;
-		} else {
-			return this._blurFilter.getBounds(rect);
-		}
-	};
-
-	/**
-	* Applies the GlowFilter to the specified context.
-	* @method applyFilter
-	* @param ctx {CanvasRenderingContext2D} The 2D context to use as the source.
-	* @param x {Number} The x position to use for the source rect.
-	* @param y {Number} The y position to use for the source rect.
-	* @param width {Number} The width to use for the source rect.
-	* @param height {Number} The height to use for the source rect.
-	* @param [targetCtx] {CanvasRenderingContext2D} The 2D context to draw the result to. Defaults to the context passed to ctx.
-	* @param [targetX] {Number} The x position to draw the result to. Defaults to the value passed to x.
-	* @param [targetY] {Number} The y position to draw the result to. Defaults to the value passed to y.
-	* @return {Boolean} If the filter was applied successfully.
-	**/
-	p.applyFilter = function(ctx, x, y, width, height, targetCtx, targetX, targetY) {
-		if ((this.alpha <= 0 || this.strength <= 0) && !this.knockout) {
-			return true;
-		}
-		targetCtx = targetCtx || ctx;
-		if (targetX === undefined) targetX = x;
-		if (targetY === undefined) targetY = y;
-		var tImgData = targetCtx.getImageData(targetX, targetY, width, height);
-		var tData = tImgData.data;
-		var dCvs = document.createElement("canvas");
-		dCvs.width = width;
-		dCvs.height = height;
-		var dCtx = dCvs.getContext("2d");
-		var dImgData = dCtx.getImageData(0, 0, width, height);
-		var dData = dImgData.data;
-		var inner = this.inner;
-		var red = this._red;
-		var green = this._green;
-		var blue = this._blue;
-		for (var i = 0, l = dData.length; i < l; i += 4) {
-			var ia = i + 3;
-			var alpha = tData[ia];
-			if (!inner) {
-				if (alpha !== 0) {
-					dData[i] = red;
-					dData[i + 1] = green;
-					dData[i + 2] = blue;
-					dData[ia] = alpha;
-				}
-			} else {
-				if (alpha !== 255) {
-					dData[i] = red;
-					dData[i + 1] = green;
-					dData[i + 2] = blue;
-					dData[ia] = 255 - alpha;
-				}
-			}
-		}
-		dCtx.putImageData(dImgData, 0, 0);
-		var strength = this.strength;
-		if (0 < strength) {
-			this._blurFilter.applyFilter(dCtx, 0, 0, width, height);
-			if (255 < strength) strength = 255;
-			for (var j = 1; j < strength; j++) {
-				dCtx.drawImage(dCvs, 0, 0);
-			}
-		}
-		var ga = this.alpha;
-		if (ga < 0) ga = 0;
-		else if (1 < ga) ga = 1;
-		var gco;
-		if (this.knockout) {
-			if (inner) gco = "source-in";
-			else gco = "source-out";
-		} else {
-			if (inner) gco = "source-atop";
-			else gco = "destination-over";
-		}
-		targetCtx.save();
-		targetCtx.setTransform(1, 0, 0, 1, 0, 0);
-		targetCtx.globalAlpha = ga;
-		targetCtx.globalCompositeOperation = gco;
-		targetCtx.drawImage(dCvs, targetX, targetY);
-		targetCtx.restore();
-		return true;
-	};
-
-	/**
-	* Returns a clone of this GlowFilter instance.
-	* @method clone
-	* @return {GlowFilter} A clone of this GlowFilter instance.
-	**/
-	p.clone = function() {
-		var f = this._blurFilter;
-		return new createjs.GlowFilter(this.color, this.alpha, f.blurX, f.blurY, this.strength, f.quality, this.inner, this.knockout);
-	};
-
-	/**
-	* Returns a string representation of this filter.
-	* @method toString
-	* @return {String} A string representation of this filter.
-	**/
-	p.toString = function() {
-		return "[GlowFilter]";
-	};
-
-	createjs.GlowFilter = GlowFilter;
-}(window));;
-StdFiltersPlugin.main();
-})(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);
-
-
-(function (console, $hx_exports) { "use strict";
-$hx_exports.createjs = $hx_exports.createjs || {};
+}(window));
+(function ($hx_exports) { "use strict";
+$hx_exports["createjs"] = $hx_exports["createjs"] || {};
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
 	for (var name in fields) proto[name] = fields[name];
@@ -1537,7 +1432,7 @@ var AdjustColorFilterPlugin = function() {
 	this.label = "Adjust Color";
 	this.name = "AdjustColorFilter";
 };
-AdjustColorFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
+AdjustColorFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
 AdjustColorFilterPlugin.prototype = {
 	getFilter: function(params) {
 		return new createjs.ColorMatrixFilter(new createjs.ColorMatrix(Math.round(params.brightness / 100 * 255 * 0.4),params.contrast,params.saturation,params.hue).toArray());
@@ -1548,7 +1443,7 @@ var BoxBlurFilterPlugin = function() {
 	this.label = "Box Blur";
 	this.name = "BoxBlurFilter";
 };
-BoxBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
+BoxBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
 BoxBlurFilterPlugin.prototype = {
 	getFilter: function(params) {
 		return new createjs.BoxBlurFilter(params.blurX,params.blurY,params.quality);
@@ -1559,7 +1454,7 @@ var DropShadowFilterPlugin = function() {
 	this.label = "Drop Shadow";
 	this.name = "DropShadowFilter";
 };
-DropShadowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
+DropShadowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
 DropShadowFilterPlugin.prototype = {
 	getFilter: function(params) {
 		var rgb = nanofl.engine.ColorTools.parse(params.color);
@@ -1572,7 +1467,7 @@ var GaussianBlurFilterPlugin = function() {
 	this.label = "Gaussian Blur";
 	this.name = "GaussianBlurFilterPlugin";
 };
-GaussianBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
+GaussianBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
 GaussianBlurFilterPlugin.prototype = {
 	getFilter: function(params) {
 		return new createjs_GaussianBlurFilter(params.radius);
@@ -1583,7 +1478,7 @@ var GlowFilterPlugin = function() {
 	this.label = "Glow";
 	this.name = "GlowFilter";
 };
-GlowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin];
+GlowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
 GlowFilterPlugin.prototype = {
 	getFilter: function(params) {
 		var rgb = nanofl.engine.ColorTools.parse(params.color);
@@ -1593,13 +1488,13 @@ GlowFilterPlugin.prototype = {
 };
 var StdFiltersPlugin = function() { };
 StdFiltersPlugin.main = function() {
-	nanofl.engine.plugins.FilterPlugins.register(new DropShadowFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new BoxBlurFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new GlowFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new AdjustColorFilterPlugin());
-	nanofl.engine.plugins.FilterPlugins.register(new GaussianBlurFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new DropShadowFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new BoxBlurFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new GlowFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new AdjustColorFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new GaussianBlurFilterPlugin());
 };
-var createjs_GaussianBlurFilter = $hx_exports.createjs.GaussianBlurFilter = function(radius) {
+var createjs_GaussianBlurFilter = $hx_exports["createjs"]["GaussianBlurFilter"] = function(radius) {
 	createjs.Filter.call(this);
 	this.radius = radius;
 };
@@ -1626,6 +1521,11 @@ createjs_GaussianBlurFilter.prototype = $extend(createjs.Filter.prototype,{
 		return "[GaussianBlurFilter]";
 	}
 });
+StdFiltersPlugin.main();
+})(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this);
+
+
+// Generated by Haxe 3.4.2 (git build master @ 890f8c7)
 /*
 
 StackBlur - a fast almost Gaussian Blur For Canvas
@@ -2016,7 +1916,288 @@ window.StackBlur = {
 	stackBlurCanvasRGBA: stackBlurCanvasRGBA
 };
 
-})(window);;
+})(window);
+/*
+GlowFilter for EaselJS
+GitHub : https://github.com/u-kudox/Filters_for_EaselJS
+Contact and Bug reports : http://kudox.jp/contact or http://twitter.com/u_kudox
+License : public domain
+*/
+
+/**
+* @namespace createjs
+**/
+createjs = createjs || {};
+
+(function(window) {
+	"use strict";
+
+	/**
+	* Applies a GlowFilter to DisplayObjects of EaselJS. This filter has inherited the Filter class of EaselJS and has used BlurFilter of EaselJS at the blurring process.
+	* @class GlowFilter
+	* @extends Filter
+	* @constructor
+	* @param [color=0xFF0000] {uint} The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
+	* @param [alpha=1] {Number} The alpha transparency value for the glow color. Valid values are 0 to 1.
+	* @param [blurX=0] {Number} The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+	* @param [blurY=0] {Number} The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+	* @param [strength=1] {uint} The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
+	* @param [quality=1] {Number} The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
+	* @param [inner=false] {Boolean} Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
+	* @param [knockout=false] {Boolean} Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
+	* @example
+	* <pre><code>_shape = new createjs.Shape().set({x:centerX, y:centerY});
+_shape.graphics.f("rgba(0,0,255,1)").dp(0, 0, 100, 5, 0.6, -90).ef();
+var color = 0x00FFFF;
+var alpha = 1;
+var blurX = 32;
+var blurY = 32;
+var strength = 1;
+var quality = 1;
+var inner = false;
+var knockout = false;
+_glowFilter = new createjs.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
+_shape.filters = [_glowFilter];
+_shape.cache(-100, -100, 200, 200);
+_stage.addChild(_shape);</code></pre>
+	**/
+	function GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout) {
+		if (!isNaN(color)) this.color = color;
+		if (alpha !== undefined) this.alpha = alpha;
+		this._blurFilter = new createjs.BlurFilter(blurX, blurY, quality);
+		if (strength !== undefined) this.strength = strength;
+		this.inner = !!inner;
+		this.knockout = !!knockout;
+	}
+
+	var p = GlowFilter.prototype = Object.create(createjs.Filter.prototype);
+	p.constructor = GlowFilter;
+
+	/**
+	* The alpha transparency value for the glow color. Valid values are 0 to 1.
+	* @property alpha
+	* @type Number
+	* @default 1
+	**/
+	p.alpha = 1;
+
+	/**
+	* The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
+	* @property strength
+	* @type uint
+	* @default 1
+	**/
+	p.strength = 1;
+
+	/**
+	* Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
+	* @property inner
+	* @type Boolean
+	* @default false
+	**/
+	p.inner = false;
+
+	/**
+	* Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
+	* @property knockout
+	* @type Boolean
+	* @default false
+	**/
+	p.knockout = false;
+
+	Object.defineProperties(p, {
+		/**
+		* The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
+		* @property color
+		* @type uint
+		* @default 0xFF0000
+		**/
+		"color" : {
+			get : function() {
+				return this._red << 16 | this._green << 8 | this._blue;
+			},
+			set : function(value) {
+				this._red = value >> 16 & 0xFF;
+				this._green = value >> 8 & 0xFF;
+				this._blue = value & 0xFF;
+				return this.color;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+		* @property blurX
+		* @type Number
+		* @default 0
+		**/
+		"blurX" : {
+			get : function() {
+				return this._blurFilter.blurX;
+			},
+			set : function(value) {
+				return this._blurFilter.blurX = value;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
+		* @property blurY
+		* @type Number
+		* @default 0
+		**/
+		"blurY" : {
+			get : function() {
+				return this._blurFilter.blurY;
+			},
+			set : function(value) {
+				return this._blurFilter.blurY = value;
+			},
+			enumerable : true
+		},
+
+		/**
+		* The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
+		* @property quality
+		* @type Number
+		* @default 1
+		**/
+		"quality" : {
+			get : function() {
+				return this._blurFilter.quality;
+			},
+			set : function(value) {
+				return this._blurFilter.quality = value;
+			},
+			enumerable : true
+		}
+	});
+
+	p._red = 255;
+
+	p._green = 0;
+
+	p._blue = 0;
+
+	p._blurFilter = null;
+
+	/**
+	* Returns a rectangle with values indicating the margins required to draw the filter or null.
+	* For example, a filter that will extend the drawing area 4 pixels to the left, and 7 pixels to the right
+	* (but no pixels up or down) would return a rectangle with (x=-4, y=0, width=11, height=0).
+	* @method getBounds
+	* @return {Rectangle} a rectangle object indicating the margins required to draw the filter or null if the filter does not effect bounds.
+	**/
+	p.getBounds = function(rect) {
+		if (this.inner) {
+			return rect;
+		} else {
+			return this._blurFilter.getBounds(rect);
+		}
+	};
+
+	/**
+	* Applies the GlowFilter to the specified context.
+	* @method applyFilter
+	* @param ctx {CanvasRenderingContext2D} The 2D context to use as the source.
+	* @param x {Number} The x position to use for the source rect.
+	* @param y {Number} The y position to use for the source rect.
+	* @param width {Number} The width to use for the source rect.
+	* @param height {Number} The height to use for the source rect.
+	* @param [targetCtx] {CanvasRenderingContext2D} The 2D context to draw the result to. Defaults to the context passed to ctx.
+	* @param [targetX] {Number} The x position to draw the result to. Defaults to the value passed to x.
+	* @param [targetY] {Number} The y position to draw the result to. Defaults to the value passed to y.
+	* @return {Boolean} If the filter was applied successfully.
+	**/
+	p.applyFilter = function(ctx, x, y, width, height, targetCtx, targetX, targetY) {
+		if ((this.alpha <= 0 || this.strength <= 0) && !this.knockout) {
+			return true;
+		}
+		targetCtx = targetCtx || ctx;
+		if (targetX === undefined) targetX = x;
+		if (targetY === undefined) targetY = y;
+		var tImgData = targetCtx.getImageData(targetX, targetY, width, height);
+		var tData = tImgData.data;
+		var dCvs = document.createElement("canvas");
+		dCvs.width = width;
+		dCvs.height = height;
+		var dCtx = dCvs.getContext("2d");
+		var dImgData = dCtx.getImageData(0, 0, width, height);
+		var dData = dImgData.data;
+		var inner = this.inner;
+		var red = this._red;
+		var green = this._green;
+		var blue = this._blue;
+		for (var i = 0, l = dData.length; i < l; i += 4) {
+			var ia = i + 3;
+			var alpha = tData[ia];
+			if (!inner) {
+				if (alpha !== 0) {
+					dData[i] = red;
+					dData[i + 1] = green;
+					dData[i + 2] = blue;
+					dData[ia] = alpha;
+				}
+			} else {
+				if (alpha !== 255) {
+					dData[i] = red;
+					dData[i + 1] = green;
+					dData[i + 2] = blue;
+					dData[ia] = 255 - alpha;
+				}
+			}
+		}
+		dCtx.putImageData(dImgData, 0, 0);
+		var strength = this.strength;
+		if (0 < strength) {
+			this._blurFilter.applyFilter(dCtx, 0, 0, width, height);
+			if (255 < strength) strength = 255;
+			for (var j = 1; j < strength; j++) {
+				dCtx.drawImage(dCvs, 0, 0);
+			}
+		}
+		var ga = this.alpha;
+		if (ga < 0) ga = 0;
+		else if (1 < ga) ga = 1;
+		var gco;
+		if (this.knockout) {
+			if (inner) gco = "source-in";
+			else gco = "source-out";
+		} else {
+			if (inner) gco = "source-atop";
+			else gco = "destination-over";
+		}
+		targetCtx.save();
+		targetCtx.setTransform(1, 0, 0, 1, 0, 0);
+		targetCtx.globalAlpha = ga;
+		targetCtx.globalCompositeOperation = gco;
+		targetCtx.drawImage(dCvs, targetX, targetY);
+		targetCtx.restore();
+		return true;
+	};
+
+	/**
+	* Returns a clone of this GlowFilter instance.
+	* @method clone
+	* @return {GlowFilter} A clone of this GlowFilter instance.
+	**/
+	p.clone = function() {
+		var f = this._blurFilter;
+		return new createjs.GlowFilter(this.color, this.alpha, f.blurX, f.blurY, this.strength, f.quality, this.inner, this.knockout);
+	};
+
+	/**
+	* Returns a string representation of this filter.
+	* @method toString
+	* @return {String} A string representation of this filter.
+	**/
+	p.toString = function() {
+		return "[GlowFilter]";
+	};
+
+	createjs.GlowFilter = GlowFilter;
+}(window));
 /*
  * BoxBlurFilter
  * Visit http://createjs.com/ for documentation, updates and examples.
@@ -2395,7 +2576,7 @@ createjs = createjs || {};
 	
 	createjs.BoxBlurFilter = createjs.promote(BoxBlurFilter, "Filter");
 }());
-;
+
 /*
 DropShadowFilter for EaselJS
 GitHub : https://github.com/u-kudox/Filters_for_EaselJS
@@ -2764,287 +2945,108 @@ _stage.addChild(_text);</code></pre>
 	}
 
 	createjs.DropShadowFilter = DropShadowFilter;
-}(window));;
-/*
-GlowFilter for EaselJS
-GitHub : https://github.com/u-kudox/Filters_for_EaselJS
-Contact and Bug reports : http://kudox.jp/contact or http://twitter.com/u_kudox
-License : public domain
-*/
-
-/**
-* @namespace createjs
-**/
-createjs = createjs || {};
-
-(function(window) {
-	"use strict";
-
-	/**
-	* Applies a GlowFilter to DisplayObjects of EaselJS. This filter has inherited the Filter class of EaselJS and has used BlurFilter of EaselJS at the blurring process.
-	* @class GlowFilter
-	* @extends Filter
-	* @constructor
-	* @param [color=0xFF0000] {uint} The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
-	* @param [alpha=1] {Number} The alpha transparency value for the glow color. Valid values are 0 to 1.
-	* @param [blurX=0] {Number} The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-	* @param [blurY=0] {Number} The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-	* @param [strength=1] {uint} The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
-	* @param [quality=1] {Number} The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
-	* @param [inner=false] {Boolean} Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
-	* @param [knockout=false] {Boolean} Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
-	* @example
-	* <pre><code>_shape = new createjs.Shape().set({x:centerX, y:centerY});
-_shape.graphics.f("rgba(0,0,255,1)").dp(0, 0, 100, 5, 0.6, -90).ef();
-var color = 0x00FFFF;
-var alpha = 1;
-var blurX = 32;
-var blurY = 32;
-var strength = 1;
-var quality = 1;
-var inner = false;
-var knockout = false;
-_glowFilter = new createjs.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
-_shape.filters = [_glowFilter];
-_shape.cache(-100, -100, 200, 200);
-_stage.addChild(_shape);</code></pre>
-	**/
-	function GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout) {
-		if (!isNaN(color)) this.color = color;
-		if (alpha !== undefined) this.alpha = alpha;
-		this._blurFilter = new createjs.BlurFilter(blurX, blurY, quality);
-		if (strength !== undefined) this.strength = strength;
-		this.inner = !!inner;
-		this.knockout = !!knockout;
+}(window));
+(function ($hx_exports) { "use strict";
+$hx_exports["createjs"] = $hx_exports["createjs"] || {};
+function $extend(from, fields) {
+	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
+	for (var name in fields) proto[name] = fields[name];
+	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
+	return proto;
+}
+var AdjustColorFilterPlugin = function() {
+	this.properties = [{ type : "int", name : "brightness", label : "Brightness", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "contrast", label : "Contrast", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "saturation", label : "Saturation", defaultValue : 0, minValue : -100, maxValue : 100, units : "%"},{ type : "int", name : "hue", label : "Hue", defaultValue : 0, minValue : -180, maxValue : 180, units : "deg"}];
+	this.label = "Adjust Color";
+	this.name = "AdjustColorFilter";
+};
+AdjustColorFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
+AdjustColorFilterPlugin.prototype = {
+	getFilter: function(params) {
+		return new createjs.ColorMatrixFilter(new createjs.ColorMatrix(Math.round(params.brightness / 100 * 255 * 0.4),params.contrast,params.saturation,params.hue).toArray());
 	}
-
-	var p = GlowFilter.prototype = Object.create(createjs.Filter.prototype);
-	p.constructor = GlowFilter;
-
-	/**
-	* The alpha transparency value for the glow color. Valid values are 0 to 1.
-	* @property alpha
-	* @type Number
-	* @default 1
-	**/
-	p.alpha = 1;
-
-	/**
-	* The strength of the glow. The default value is 1. Valid values are 0 to 255. But as for this value, a low value is more preferable.
-	* @property strength
-	* @type uint
-	* @default 1
-	**/
-	p.strength = 1;
-
-	/**
-	* Specifies whether the glow is an inner glow. The default value is false, expressing outer glow.
-	* @property inner
-	* @type Boolean
-	* @default false
-	**/
-	p.inner = false;
-
-	/**
-	* Specifies whether the object has a knockout effect. The default value is false, expressing no knockout effect.
-	* @property knockout
-	* @type Boolean
-	* @default false
-	**/
-	p.knockout = false;
-
-	Object.defineProperties(p, {
-		/**
-		* The color of the glow. The default value is 0xFF0000. Valid values are in the hexadecimal format 0xRRGGBB.
-		* @property color
-		* @type uint
-		* @default 0xFF0000
-		**/
-		"color" : {
-			get : function() {
-				return this._red << 16 | this._green << 8 | this._blue;
-			},
-			set : function(value) {
-				this._red = value >> 16 & 0xFF;
-				this._green = value >> 8 & 0xFF;
-				this._blue = value & 0xFF;
-				return this.color;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The amount of horizontal blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-		* @property blurX
-		* @type Number
-		* @default 0
-		**/
-		"blurX" : {
-			get : function() {
-				return this._blurFilter.blurX;
-			},
-			set : function(value) {
-				return this._blurFilter.blurX = value;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The amount of vertical blur. The default value is 0. This value is passed to BlurFilter of EaselJS.
-		* @property blurY
-		* @type Number
-		* @default 0
-		**/
-		"blurY" : {
-			get : function() {
-				return this._blurFilter.blurY;
-			},
-			set : function(value) {
-				return this._blurFilter.blurY = value;
-			},
-			enumerable : true
-		},
-
-		/**
-		* The number of blur iterations. The default value is 1. This value is passed to BlurFilter of EaselJS.
-		* @property quality
-		* @type Number
-		* @default 1
-		**/
-		"quality" : {
-			get : function() {
-				return this._blurFilter.quality;
-			},
-			set : function(value) {
-				return this._blurFilter.quality = value;
-			},
-			enumerable : true
-		}
-	});
-
-	p._red = 255;
-
-	p._green = 0;
-
-	p._blue = 0;
-
-	p._blurFilter = null;
-
-	/**
-	* Returns a rectangle with values indicating the margins required to draw the filter or null.
-	* For example, a filter that will extend the drawing area 4 pixels to the left, and 7 pixels to the right
-	* (but no pixels up or down) would return a rectangle with (x=-4, y=0, width=11, height=0).
-	* @method getBounds
-	* @return {Rectangle} a rectangle object indicating the margins required to draw the filter or null if the filter does not effect bounds.
-	**/
-	p.getBounds = function(rect) {
-		if (this.inner) {
-			return rect;
-		} else {
-			return this._blurFilter.getBounds(rect);
-		}
-	};
-
-	/**
-	* Applies the GlowFilter to the specified context.
-	* @method applyFilter
-	* @param ctx {CanvasRenderingContext2D} The 2D context to use as the source.
-	* @param x {Number} The x position to use for the source rect.
-	* @param y {Number} The y position to use for the source rect.
-	* @param width {Number} The width to use for the source rect.
-	* @param height {Number} The height to use for the source rect.
-	* @param [targetCtx] {CanvasRenderingContext2D} The 2D context to draw the result to. Defaults to the context passed to ctx.
-	* @param [targetX] {Number} The x position to draw the result to. Defaults to the value passed to x.
-	* @param [targetY] {Number} The y position to draw the result to. Defaults to the value passed to y.
-	* @return {Boolean} If the filter was applied successfully.
-	**/
-	p.applyFilter = function(ctx, x, y, width, height, targetCtx, targetX, targetY) {
-		if ((this.alpha <= 0 || this.strength <= 0) && !this.knockout) {
-			return true;
-		}
-		targetCtx = targetCtx || ctx;
-		if (targetX === undefined) targetX = x;
-		if (targetY === undefined) targetY = y;
-		var tImgData = targetCtx.getImageData(targetX, targetY, width, height);
-		var tData = tImgData.data;
-		var dCvs = document.createElement("canvas");
-		dCvs.width = width;
-		dCvs.height = height;
-		var dCtx = dCvs.getContext("2d");
-		var dImgData = dCtx.getImageData(0, 0, width, height);
-		var dData = dImgData.data;
-		var inner = this.inner;
-		var red = this._red;
-		var green = this._green;
-		var blue = this._blue;
-		for (var i = 0, l = dData.length; i < l; i += 4) {
-			var ia = i + 3;
-			var alpha = tData[ia];
-			if (!inner) {
-				if (alpha !== 0) {
-					dData[i] = red;
-					dData[i + 1] = green;
-					dData[i + 2] = blue;
-					dData[ia] = alpha;
-				}
-			} else {
-				if (alpha !== 255) {
-					dData[i] = red;
-					dData[i + 1] = green;
-					dData[i + 2] = blue;
-					dData[ia] = 255 - alpha;
-				}
-			}
-		}
-		dCtx.putImageData(dImgData, 0, 0);
-		var strength = this.strength;
-		if (0 < strength) {
-			this._blurFilter.applyFilter(dCtx, 0, 0, width, height);
-			if (255 < strength) strength = 255;
-			for (var j = 1; j < strength; j++) {
-				dCtx.drawImage(dCvs, 0, 0);
-			}
-		}
-		var ga = this.alpha;
-		if (ga < 0) ga = 0;
-		else if (1 < ga) ga = 1;
-		var gco;
-		if (this.knockout) {
-			if (inner) gco = "source-in";
-			else gco = "source-out";
-		} else {
-			if (inner) gco = "source-atop";
-			else gco = "destination-over";
-		}
-		targetCtx.save();
-		targetCtx.setTransform(1, 0, 0, 1, 0, 0);
-		targetCtx.globalAlpha = ga;
-		targetCtx.globalCompositeOperation = gco;
-		targetCtx.drawImage(dCvs, targetX, targetY);
-		targetCtx.restore();
+};
+var BoxBlurFilterPlugin = function() {
+	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3}];
+	this.label = "Box Blur";
+	this.name = "BoxBlurFilter";
+};
+BoxBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
+BoxBlurFilterPlugin.prototype = {
+	getFilter: function(params) {
+		return new createjs.BoxBlurFilter(params.blurX,params.blurY,params.quality);
+	}
+};
+var DropShadowFilterPlugin = function() {
+	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 5, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 5, units : "px", minValue : 0},{ type : "int", name : "strength", label : "Strength", defaultValue : 100, units : "%", minValue : 0, maxValue : 100},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3},{ type : "float", name : "angle", label : "Angle", defaultValue : 45, units : "deg", minValue : 0, maxValue : 360},{ type : "float", name : "distance", label : "Distance", defaultValue : 5, units : "px", minValue : 0},{ type : "bool", name : "knockout", label : "Knockout", defaultValue : false},{ type : "bool", name : "inner", label : "Inner shadow", defaultValue : false},{ type : "bool", name : "hideObject", label : "Hide object", defaultValue : false},{ type : "color", name : "color", label : "Color", defaultValue : "#000000"},{ type : "int", name : "alpha", label : "Alpha", defaultValue : 100, neutralValue : 0, units : "%", minValue : 0, maxValue : 100}];
+	this.label = "Drop Shadow";
+	this.name = "DropShadowFilter";
+};
+DropShadowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
+DropShadowFilterPlugin.prototype = {
+	getFilter: function(params) {
+		var rgb = nanofl.engine.ColorTools.parse(params.color);
+		var color = rgb.r << 16 | rgb.g << 8 | rgb.b;
+		return new createjs.DropShadowFilter(params.distance * 2,params.angle,color,params.alpha / 100 * (params.strength / 100),params.blurX * 2,params.blurY * 2,1,params.quality,params.inner,params.knockout,params.hideObject);
+	}
+};
+var GaussianBlurFilterPlugin = function() {
+	this.properties = [{ type : "int", name : "radius", label : "Radius", defaultValue : 10, neutralValue : 0, units : "px", minValue : 0}];
+	this.label = "Gaussian Blur";
+	this.name = "GaussianBlurFilterPlugin";
+};
+GaussianBlurFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
+GaussianBlurFilterPlugin.prototype = {
+	getFilter: function(params) {
+		return new createjs_GaussianBlurFilter(params.radius);
+	}
+};
+var GlowFilterPlugin = function() {
+	this.properties = [{ type : "float", name : "blurX", label : "Blur X", defaultValue : 5, units : "px", minValue : 0},{ type : "float", name : "blurY", label : "Blur Y", defaultValue : 5, units : "px", minValue : 0},{ type : "int", name : "strength", label : "Strength", defaultValue : 100, units : "%", minValue : 0, maxValue : 100},{ type : "int", name : "quality", label : "Quality", defaultValue : 1, minValue : 1, maxValue : 3},{ type : "color", name : "color", label : "Color", defaultValue : "#000000"},{ type : "int", name : "alpha", label : "Alpha", defaultValue : 100, neutralValue : 0, units : "%", minValue : 0, maxValue : 100},{ type : "bool", name : "knockout", label : "Knockout", defaultValue : false},{ type : "bool", name : "inner", label : "Inner shadow", defaultValue : false}];
+	this.label = "Glow";
+	this.name = "GlowFilter";
+};
+GlowFilterPlugin.__interfaces__ = [nanofl.engine.plugins.IFilterPlugin2D];
+GlowFilterPlugin.prototype = {
+	getFilter: function(params) {
+		var rgb = nanofl.engine.ColorTools.parse(params.color);
+		var color = rgb.r << 16 | rgb.g << 8 | rgb.b;
+		return new createjs.GlowFilter(color,params.alpha / 100 * (params.strength / 100),params.blurX * 2,params.blurY * 2,1,params.quality,params.inner,params.knockout);
+	}
+};
+var StdFiltersPlugin = function() { };
+StdFiltersPlugin.main = function() {
+	nanofl.engine.plugins.FilterPlugins2D.register(new DropShadowFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new BoxBlurFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new GlowFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new AdjustColorFilterPlugin());
+	nanofl.engine.plugins.FilterPlugins2D.register(new GaussianBlurFilterPlugin());
+};
+var createjs_GaussianBlurFilter = $hx_exports["createjs"]["GaussianBlurFilter"] = function(radius) {
+	createjs.Filter.call(this);
+	this.radius = radius;
+};
+createjs_GaussianBlurFilter.__super__ = createjs.Filter;
+createjs_GaussianBlurFilter.prototype = $extend(createjs.Filter.prototype,{
+	applyFilter: function(ctx,x,y,width,height,targetCtx,targetX,targetY) {
+		StackBlur.stackBlurCanvasRGBA(ctx.canvas,x,y,width,height,this.radius);
 		return true;
-	};
-
-	/**
-	* Returns a clone of this GlowFilter instance.
-	* @method clone
-	* @return {GlowFilter} A clone of this GlowFilter instance.
-	**/
-	p.clone = function() {
-		var f = this._blurFilter;
-		return new createjs.GlowFilter(this.color, this.alpha, f.blurX, f.blurY, this.strength, f.quality, this.inner, this.knockout);
-	};
-
-	/**
-	* Returns a string representation of this filter.
-	* @method toString
-	* @return {String} A string representation of this filter.
-	**/
-	p.toString = function() {
-		return "[GlowFilter]";
-	};
-
-	createjs.GlowFilter = GlowFilter;
-}(window));;
+	}
+	,getBounds: function(rect) {
+		if(rect != null) {
+			rect.x -= this.radius;
+			rect.y -= this.radius;
+			rect.width += this.radius * 2;
+			rect.height += this.radius * 2;
+			return rect;
+		}
+		return new createjs.Rectangle(-this.radius,-this.radius,this.radius * 2,this.radius * 2);
+	}
+	,clone: function() {
+		return new createjs_GaussianBlurFilter(this.radius);
+	}
+	,toString: function() {
+		return "[GaussianBlurFilter]";
+	}
+});
 StdFiltersPlugin.main();
-})(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);
+})(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this);
