@@ -5879,7 +5879,7 @@ nanofl_TextRun.prototype = {
 	}
 	,__class__: nanofl_TextRun
 };
-var nanofl_ThreeView = $hx_exports["nanofl"]["ThreeView"] = function(object) {
+var nanofl_ThreeView = $hx_exports["nanofl"]["ThreeView"] = function(symbol) {
 	this.forceSoftwareRenderer = false;
 	this.height = 150;
 	this.width = 200;
@@ -5891,19 +5891,21 @@ var nanofl_ThreeView = $hx_exports["nanofl"]["ThreeView"] = function(object) {
 	this.rotationZ = 0.0;
 	this.rotationY = 0.0;
 	this.rotationX = 0.0;
+	stdlib_Debug.assert(js_Boot.__instanceof(symbol,nanofl_engine_libraryitems_InstancableItem3D),null,{ fileName : "ThreeView.hx", lineNumber : 59, className : "nanofl.ThreeView", methodName : "new"});
 	nanofl_SolidContainer.call(this);
-	this.object = object;
+	this.symbol = symbol;
+	this.object = symbol.createDisplayObject(0,null);
 	this.scene = new THREE.Scene();
 	this.scene.fog = datatools_NullTools.clone(this.scene.fog);
-	this.scene.add(object);
-	this.boundingRadius = 1.0;
+	this.scene.add(this.object);
 	this.update();
 };
 $hxClasses["nanofl.ThreeView"] = nanofl_ThreeView;
 nanofl_ThreeView.__name__ = ["nanofl","ThreeView"];
 nanofl_ThreeView.__super__ = nanofl_SolidContainer;
 nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
-	object: null
+	symbol: null
+	,object: null
 	,rotationX: null
 	,rotationY: null
 	,rotationZ: null
@@ -5920,9 +5922,8 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 	,width: null
 	,height: null
 	,forceSoftwareRenderer: null
-	,boundingRadius: null
 	,clone: function(recursive) {
-		var r = this._cloneProps(new nanofl_ThreeView(this.object));
+		var r = this._cloneProps(new nanofl_ThreeView(this.symbol));
 		r.rotationX = this.rotationX;
 		r.rotationY = this.rotationY;
 		r.rotationZ = this.rotationZ;
@@ -5953,8 +5954,8 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 		this.object.setRotationFromEuler(new THREE.Euler(this.rotationX * nanofl_ThreeView.DEG_TO_RAD,this.rotationY * nanofl_ThreeView.DEG_TO_RAD,this.rotationZ * nanofl_ThreeView.DEG_TO_RAD));
 		this.object.updateMatrix();
 		var aspect = this.width / this.height;
-		var posZh = this.boundingRadius / Math.sin(this.camera.fov / 2 * nanofl_ThreeView.DEG_TO_RAD);
-		var posZw = this.boundingRadius / Math.sin(this.camera.fov * aspect / 2 * nanofl_ThreeView.DEG_TO_RAD);
+		var posZh = this.symbol.boundingRadius / Math.sin(this.camera.fov / 2 * nanofl_ThreeView.DEG_TO_RAD);
+		var posZw = this.symbol.boundingRadius / Math.sin(this.camera.fov * aspect / 2 * nanofl_ThreeView.DEG_TO_RAD);
 		var posZ = Math.max(posZh,posZw);
 		if(this.directionalLight != null) {
 			this.directionalLight.position.x = 0.0;
@@ -5965,8 +5966,8 @@ nanofl_ThreeView.prototype = $extend(nanofl_SolidContainer.prototype,{
 		if(this.autoCamera) {
 			this.camera.position.z = -posZ;
 			this.camera.lookAt(new THREE.Vector3(0,0,0));
-			this.camera.near = posZ - this.boundingRadius;
-			this.camera.far = posZ + this.boundingRadius;
+			this.camera.near = posZ - this.symbol.boundingRadius;
+			this.camera.far = posZ + this.symbol.boundingRadius;
 			this.camera.aspect = aspect;
 			this.camera.updateProjectionMatrix();
 			this.camera.updateMatrix();
@@ -7966,7 +7967,7 @@ nanofl_engine_base_BaseInstancableItem.prototype = $extend(nanofl_engine_library
 		obj.linkedClass = this.linkedClass;
 	}
 	,newInstance: function() {
-		stdlib_Debug.assert(this.library != null,"You must add symbol '" + this.namePath + "' to library before newInstance() call.",{ fileName : "BaseInstancableItem.hx", lineNumber : 45, className : "nanofl.engine.base.BaseInstancableItem", methodName : "newInstance"});
+		stdlib_Debug.assert(this.library != null,"You must add symbol '" + this.namePath + "' to library before newInstance() call.",{ fileName : "BaseInstancableItem.hx", lineNumber : 42, className : "nanofl.engine.base.BaseInstancableItem", methodName : "newInstance"});
 		var r = this.newInstanceInner(this.namePath);
 		r.setLibrary(this.library);
 		return r;
@@ -10652,7 +10653,7 @@ nanofl_engine_elements2D_ThreeViewElement.prototype = $extend(nanofl_engine_elem
 		out.end();
 	}
 	,createDisplayObject: function(frameIndexes) {
-		var dispObj = new nanofl_ThreeView(this.get_symbol().createDisplayObject(0,null));
+		var dispObj = new nanofl_ThreeView(this.get_symbol());
 		this.updateDisplayObject(dispObj,null);
 		if(this.name != "") {
 			dispObj.name = this.name;
@@ -15943,12 +15944,12 @@ nanofl_engine_libraryitems_InstancableItem2D.prototype = $extend(nanofl_engine_b
 			if(klass != null) {
 				return new klass(this);
 			}
-			haxe_Log.trace("Linkage class '" + this.linkedClass + "' is not found.",{ fileName : "InstancableItem2D.hx", lineNumber : 23, className : "nanofl.engine.libraryitems.InstancableItem2D", methodName : "createDisplayObject"});
+			haxe_Log.trace("Linkage class '" + this.linkedClass + "' is not found.",{ fileName : "InstancableItem2D.hx", lineNumber : 26, className : "nanofl.engine.libraryitems.InstancableItem2D", methodName : "createDisplayObject"});
 		}
 		return null;
 	}
 	,updateDisplayObject: function(dispObj,childFrameIndexes) {
-		stdlib_Debug.methodMustBeOverriden(this,{ fileName : "InstancableItem2D.hx", lineNumber : 29, className : "nanofl.engine.libraryitems.InstancableItem2D", methodName : "updateDisplayObject"});
+		stdlib_Debug.methodMustBeOverriden(this,{ fileName : "InstancableItem2D.hx", lineNumber : 32, className : "nanofl.engine.libraryitems.InstancableItem2D", methodName : "updateDisplayObject"});
 	}
 	,getNearestPoint: function(pos) {
 		return { x : 1e100, y : 1e100};
@@ -16453,13 +16454,18 @@ nanofl_engine_libraryitems_FontItem.prototype = $extend(nanofl_engine_libraryite
 	,__class__: nanofl_engine_libraryitems_FontItem
 });
 var nanofl_engine_libraryitems_InstancableItem3D = function(namePath) {
+	this.boundingRadius = 1.0;
 	nanofl_engine_base_BaseInstancableItem.call(this,namePath);
 };
 $hxClasses["nanofl.engine.libraryitems.InstancableItem3D"] = nanofl_engine_libraryitems_InstancableItem3D;
 nanofl_engine_libraryitems_InstancableItem3D.__name__ = ["nanofl","engine","libraryitems","InstancableItem3D"];
 nanofl_engine_libraryitems_InstancableItem3D.__super__ = nanofl_engine_base_BaseInstancableItem;
 nanofl_engine_libraryitems_InstancableItem3D.prototype = $extend(nanofl_engine_base_BaseInstancableItem.prototype,{
-	newInstanceInner: function(namePath) {
+	boundingRadius: null
+	,getNotSerializableFields: function() {
+		return nanofl_engine_base_BaseInstancableItem.prototype.getNotSerializableFields.call(this).concat(["boundingRadius"]);
+	}
+	,newInstanceInner: function(namePath) {
 		return new nanofl_engine_elements3D_Instance3D(namePath);
 	}
 	,getDisplayObjectClassName: function() {
@@ -16471,18 +16477,17 @@ nanofl_engine_libraryitems_InstancableItem3D.prototype = $extend(nanofl_engine_b
 			if(klass != null) {
 				return new klass(this);
 			}
-			haxe_Log.trace("Linkage class '" + this.linkedClass + "' is not found.",{ fileName : "InstancableItem3D.hx", lineNumber : 23, className : "nanofl.engine.libraryitems.InstancableItem3D", methodName : "createDisplayObject"});
+			haxe_Log.trace("Linkage class '" + this.linkedClass + "' is not found.",{ fileName : "InstancableItem3D.hx", lineNumber : 32, className : "nanofl.engine.libraryitems.InstancableItem3D", methodName : "createDisplayObject"});
 		}
 		return null;
 	}
 	,updateDisplayObject: function(dispObj,childFrameIndexes) {
-		stdlib_Debug.methodMustBeOverriden(this,{ fileName : "InstancableItem3D.hx", lineNumber : 29, className : "nanofl.engine.libraryitems.InstancableItem3D", methodName : "updateDisplayObject"});
+		stdlib_Debug.methodMustBeOverriden(this,{ fileName : "InstancableItem3D.hx", lineNumber : 38, className : "nanofl.engine.libraryitems.InstancableItem3D", methodName : "updateDisplayObject"});
 	}
 	,__class__: nanofl_engine_libraryitems_InstancableItem3D
 });
 var nanofl_engine_libraryitems_MeshItem3D = function(namePath,ext,originalExt) {
 	this.textureFiles = [];
-	this.loadLights = false;
 	nanofl_engine_libraryitems_InstancableItem3D.call(this,namePath);
 	this.ext = ext;
 	this.originalExt = originalExt;
@@ -16500,8 +16505,8 @@ nanofl_engine_libraryitems_MeshItem3D.parseMaterials = function(json) {
 	return r;
 };
 nanofl_engine_libraryitems_MeshItem3D.parseImages = function(namePath,json) {
-	nanofl_engine_libraryitems_MeshItem3D.log("parseImages " + namePath,{ fileName : "MeshItem3D.hx", lineNumber : 149, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
-	nanofl_engine_libraryitems_MeshItem3D.log(json.images,{ fileName : "MeshItem3D.hx", lineNumber : 150, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
+	nanofl_engine_libraryitems_MeshItem3D.log("parseImages " + namePath,{ fileName : "MeshItem3D.hx", lineNumber : 144, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
+	nanofl_engine_libraryitems_MeshItem3D.log(json.images,{ fileName : "MeshItem3D.hx", lineNumber : 145, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
 	var r = [];
 	if(json.images != null) {
 		var _g = 0;
@@ -16510,7 +16515,7 @@ nanofl_engine_libraryitems_MeshItem3D.parseImages = function(namePath,json) {
 			var image = _g1[_g];
 			++_g;
 			var path = haxe_io_Path.join([haxe_io_Path.directory(namePath),StringTools.replace(image.url,"\\","/")]);
-			nanofl_engine_libraryitems_MeshItem3D.log("path = " + path,{ fileName : "MeshItem3D.hx", lineNumber : 158, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
+			nanofl_engine_libraryitems_MeshItem3D.log("path = " + path,{ fileName : "MeshItem3D.hx", lineNumber : 153, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "parseImages"});
 			r.push(path);
 		}
 	}
@@ -16530,19 +16535,16 @@ nanofl_engine_libraryitems_MeshItem3D.__super__ = nanofl_engine_libraryitems_Ins
 nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryitems_InstancableItem3D.prototype,{
 	ext: null
 	,originalExt: null
-	,loadLights: null
 	,object3D: null
-	,boundingRadius: null
 	,textureFiles: null
 	,getNotSerializableFields: function() {
-		return nanofl_engine_libraryitems_InstancableItem3D.prototype.getNotSerializableFields.call(this).concat(["object3D","boundingRadius","textureFiles"]);
+		return nanofl_engine_libraryitems_InstancableItem3D.prototype.getNotSerializableFields.call(this).concat(["object3D","textureFiles"]);
 	}
 	,getType: function() {
 		return "mesh";
 	}
 	,clone: function() {
 		var obj = new nanofl_engine_libraryitems_MeshItem3D(this.namePath,this.ext,this.originalExt);
-		obj.loadLights = this.loadLights;
 		obj.object3D = this.object3D != null ? this.object3D.clone(true) : null;
 		obj.boundingRadius = this.boundingRadius;
 		obj.textureFiles = this.textureFiles;
@@ -16581,20 +16583,18 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 	,loadProperties: function(xml) {
 		nanofl_engine_libraryitems_InstancableItem3D.prototype.loadProperties.call(this,xml);
 		this.originalExt = htmlparser_HtmlParserTools.getAttr(xml,"originalExt",null);
-		this.loadLights = htmlparser_HtmlParserTools.getAttr(xml,"loadLights",false);
 	}
 	,saveProperties: function(xml) {
 		nanofl_engine_libraryitems_InstancableItem3D.prototype.saveProperties.call(this,xml);
 		xml.attr("ext",this.ext,null);
 		xml.attr("originalExt",this.originalExt,null);
-		xml.attr("loadLights",this.loadLights,false);
 	}
 	,getUrl: function() {
 		return this.library.realUrl(this.namePath + "." + this.ext);
 	}
 	,preload: function(ready) {
 		var _gthis = this;
-		stdlib_Debug.assert(this.library != null,"You need to add item '" + this.namePath + "' to the library before preload call.",{ fileName : "MeshItem3D.hx", lineNumber : 230, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+		stdlib_Debug.assert(this.library != null,"You need to add item '" + this.namePath + "' to the library before preload call.",{ fileName : "MeshItem3D.hx", lineNumber : 223, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
 		nanofl_engine_Loader.file(this.getUrl(),function(s) {
 			var _g = _gthis.ext.toLowerCase();
 			if(_g == "json") {
@@ -16617,7 +16617,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 					loader.setTexturePath(_gthis.library.realUrl(""));
 					_gthis.object3D = loader.parse(json);
 					if(_gthis.object3D.type == "Mesh") {
-						nanofl_engine_libraryitems_MeshItem3D.log("THIS IS NOT A MESH (namePath = " + _gthis.namePath + "; type = " + _gthis.object3D.type + ")",{ fileName : "MeshItem3D.hx", lineNumber : 270, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+						nanofl_engine_libraryitems_MeshItem3D.log("THIS IS NOT A MESH (namePath = " + _gthis.namePath + "; type = " + _gthis.object3D.type + ")",{ fileName : "MeshItem3D.hx", lineNumber : 263, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
 					}
 				} else {
 					var loader1 = new THREE.JSONLoader();
@@ -16643,7 +16643,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 					ready();
 				}
 			} else {
-				stdlib_Debug.assert(false,"Unknow Mesh file extension ('" + _gthis.ext + "').",{ fileName : "MeshItem3D.hx", lineNumber : 314, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
+				stdlib_Debug.assert(false,"Unknow Mesh file extension ('" + _gthis.ext + "').",{ fileName : "MeshItem3D.hx", lineNumber : 307, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "preload"});
 			}
 		});
 	}
@@ -16651,7 +16651,7 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 		var _gthis = this;
 		this.boundingRadius = 0.0;
 		this.object3D.traverse(function(object) {
-			nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius object " + object.type + " / " + object.name,{ fileName : "MeshItem3D.hx", lineNumber : 325, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
+			nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius object " + object.type + " / " + object.name,{ fileName : "MeshItem3D.hx", lineNumber : 318, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
 			if(object.type == "Mesh") {
 				var mesh = object;
 				mesh.updateMatrixWorld(true);
@@ -16670,13 +16670,13 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 			}
 		});
 		this.boundingRadius = Math.sqrt(this.boundingRadius);
-		nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius boundingRadius = " + this.boundingRadius,{ fileName : "MeshItem3D.hx", lineNumber : 346, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
+		nanofl_engine_libraryitems_MeshItem3D.log("MeshItem3D.updateBoundingRadius boundingRadius = " + this.boundingRadius,{ fileName : "MeshItem3D.hx", lineNumber : 339, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateBoundingRadius"});
 	}
 	,createDisplayObject: function(initFrameIndex,childFrameIndexes) {
 		return this.object3D.clone();
 	}
 	,updateDisplayObject: function(dispObj,childFrameIndexes) {
-		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,THREE.Object3D),null,{ fileName : "MeshItem3D.hx", lineNumber : 356, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateDisplayObject"});
+		stdlib_Debug.assert(js_Boot.__instanceof(dispObj,THREE.Object3D),null,{ fileName : "MeshItem3D.hx", lineNumber : 349, className : "nanofl.engine.libraryitems.MeshItem3D", methodName : "updateDisplayObject"});
 		var mesh = dispObj;
 	}
 	,getDisplayObjectClassName: function() {
@@ -16690,9 +16690,6 @@ nanofl_engine_libraryitems_MeshItem3D.prototype = $extend(nanofl_engine_libraryi
 			return false;
 		}
 		if(item.ext != this.ext) {
-			return false;
-		}
-		if(item.loadLights != this.loadLights) {
 			return false;
 		}
 		return true;
@@ -22581,8 +22578,8 @@ nanofl_engine_ScaleMode.fit = "fit";
 nanofl_engine_ScaleMode.fill = "fill";
 nanofl_engine_ScaleMode.stretch = "stretch";
 nanofl_engine_ScaleMode.custom = "custom";
-nanofl_engine_Version.ide = "4.1.0";
-nanofl_engine_Version.player = "3.2.0";
+nanofl_engine_Version.ide = "4.1.2";
+nanofl_engine_Version.player = "3.2.1";
 nanofl_engine_Version.document = "2.3.0";
 nanofl_engine_geom2D_BezierCurve.EPS = 1e-10;
 nanofl_engine_geom2D_BezierCurve.GAP = 0.01;
